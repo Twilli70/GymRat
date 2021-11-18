@@ -20,35 +20,19 @@
     <fragment
         android:id="@+id/userProfileFragment"
         android:name="edu.towson.cosc412.martindale.gymrat.fragments.UserProfileFragment"
-        android:label="UserProfileFragment" >
-        <action
-            android:id="@+id/action_userProfileFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
-    </fragment>
+        android:label="UserProfileFragment" />
     <fragment
         android:id="@+id/nextRecommendedWorkoutFragment"
         android:name="edu.towson.cosc412.martindale.gymrat.fragments.NextRecommendedWorkoutFragment"
-        android:label="NextRecommendedWorkoutFragment" >
-        <action
-            android:id="@+id/action_nextRecommendedWorkoutFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
-    </fragment>
+        android:label="NextRecommendedWorkoutFragment" />
     <fragment
         android:id="@+id/previousWorkoutsFragment"
         android:name="edu.towson.cosc412.martindale.gymrat.fragments.PreviousWorkoutsFragment"
-        android:label="PreviousWorkoutsFragment" >
-        <action
-            android:id="@+id/action_previousWorkoutsFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
-    </fragment>
+        android:label="PreviousWorkoutsFragment" />
     <fragment
         android:id="@+id/workoutDirectoryFragment"
         android:name="edu.towson.cosc412.martindale.gymrat.fragments.WorkoutDirectoryFragment"
-        android:label="WorkoutDirectoryFragment" >
-        <action
-            android:id="@+id/action_workoutDirectoryFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
-    </fragment>
+        android:label="WorkoutDirectoryFragment" />
     <fragment
         android:id="@+id/workoutMenuFragment"
         android:name="edu.towson.cosc412.martindale.gymrat.fragments.WorkoutMenuFragment"
@@ -59,8 +43,5 @@
         <action
             android:id="@+id/action_workoutMenuFragment_to_nextRecommendedWorkoutFragment"
             app:destination="@id/nextRecommendedWorkoutFragment" />
-        <action
-            android:id="@+id/action_workoutMenuFragment_to_mainMenuFragment"
-            app:destination="@id/mainMenuFragment" />
     </fragment>
 </navigation>
