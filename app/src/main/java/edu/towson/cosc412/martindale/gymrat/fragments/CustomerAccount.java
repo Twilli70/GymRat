@@ -23,6 +23,11 @@ public class CustomerAccount {
         this.weight = weight;
     }
 
+    public String toString(){
+        return ("id= " + id + ", userName=" + userName + ", fName= " + fName + ", lName= " + lName + ", age = " + age + ", height= " + height + ", weight= " + weight);
+
+    }
+
     public String getUserName() {
         return userName;
     }

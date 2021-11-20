@@ -9,7 +9,13 @@ public class CustomerLogin {
     public CustomerLogin(String userName, String password) {
         this.userName = userName;
         this.password = password;
+
     }
+    public String toString(){
+        return ( "userName= " + userName + ", password= " + password );
+
+    }
+
     public String getUserName(){
         return userName;
     }
