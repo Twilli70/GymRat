@@ -7,23 +7,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button loginButton;
+     Button loginBtn, regBtn;
+     EditText editUsr, editPwd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginButton = findViewById(R.id.loginBtn);
+        //reference layout
+        loginBtn= findViewById(R.id.loginBtn);
+        regBtn= findViewById(R.id.loginBtn);
+        editUsr = findViewById(R.id.editUsr);
+        editPwd = findViewById(R.id.editPwd);
 
-        loginButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
+        //listeners
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             public final void onClick(View it) {
                 openNavigation();
             }
+        });
 
+        regBtn.setOnClickListener(new View.OnClickListener() {
+            public final void onClick(View it) {
+
+                Intent intent = new Intent(getApplicationContext(), Registration.class);
+                startActivity(intent);
+            }
         });
     }
 
