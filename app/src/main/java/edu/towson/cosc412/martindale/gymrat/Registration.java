@@ -21,7 +21,7 @@ public class Registration extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_registration);
 
         //reference layout
         newUsr= findViewById(R.id.newUsr);
