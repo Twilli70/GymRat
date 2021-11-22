@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         editPwd = findViewById(R.id.editPwd);
         DB = new DBHelper(this);
 
-
         //listeners
         loginBtn.setOnClickListener(new View.OnClickListener() {
             public final void onClick(View it) {
