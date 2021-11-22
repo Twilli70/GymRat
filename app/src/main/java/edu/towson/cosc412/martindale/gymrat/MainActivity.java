@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.database.sqlite.*;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
      Button loginBtn, regBtn;
      EditText editUsr, editPwd;
+     DBHelper DB;
 
 
     @Override
@@ -26,11 +28,27 @@ public class MainActivity extends AppCompatActivity {
         regBtn= findViewById(R.id.loginBtn);
         editUsr = findViewById(R.id.editUsr);
         editPwd = findViewById(R.id.editPwd);
+        DB = new DBHelper(this);
+
 
         //listeners
         loginBtn.setOnClickListener(new View.OnClickListener() {
             public final void onClick(View it) {
-                openNavigation();
+
+                String user = editUsr.getText().toString();
+                String pass = editPwd.getText().toString();
+
+                if(user.equals("") || pass.equals(""))
+                    Toast.makeText(MainActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                else {
+                    Boolean checkuserpass = DB.checkusernamepassword(user,pass);
+                    if(checkuserpass==true){
+                        Toast.makeText(MainActivity.this, "Sign in successful", Toast.LENGTH_SHORT).show();
+                        openNavigation();
+                    }else{
+                        Toast.makeText(MainActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 

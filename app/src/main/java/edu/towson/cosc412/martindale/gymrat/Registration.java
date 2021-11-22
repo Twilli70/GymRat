@@ -28,6 +28,7 @@ public class Registration extends AppCompatActivity {
         newPwd= findViewById(R.id.newPwd);
         newPwd1 = findViewById(R.id.newPwd1);
         regDone= findViewById(R.id.regDone);
+        DB = new DBHelper(this);
 
         //listeners
         regDone.setOnClickListener(new View.OnClickListener() {
@@ -44,14 +45,20 @@ public class Registration extends AppCompatActivity {
                         if(checkuser==false){
                             Boolean insert = DB.insertData(user,pass);
                             if(insert==true){
-                                Toast.makeText(Registration.this, "Registration Successfull", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Registration.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(Registration.this, "Registration Failed", Toast.LENGTH_SHORT).show();
                             }
+                        } else {
+                            Toast.makeText(Registration.this, "User already exists, Try again!", Toast.LENGTH_SHORT).show();
                         }
+
+                    }else{
+                    Toast.makeText(Registration.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
             }
         });
 
