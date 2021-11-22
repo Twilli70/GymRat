@@ -41,10 +41,10 @@ public class Registration extends AppCompatActivity {
                     Toast.makeText(Registration.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
                 else {
                     if(pass.equals(repass)){
-                        Boolean checkuser = DB.checkusername(user);
-                        if(checkuser==false){
+                        Boolean checkUser = DB.checkUsername(user);
+                        if(!checkUser){
                             Boolean insert = DB.insertData(user,pass);
-                            if(insert==true){
+                            if(insert){
                                 Toast.makeText(Registration.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);

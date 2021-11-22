@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
                 if(user.equals("") || pass.equals(""))
                     Toast.makeText(MainActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
                 else {
-                    Boolean checkuserpass = DB.checkusernamepassword(user,pass);
-                    if(checkuserpass==true){
+                    Boolean checkUserPass = DB.checkUsernamePassword(user,pass);
+                    if(checkUserPass){
                         Toast.makeText(MainActivity.this, "Sign in successful", Toast.LENGTH_SHORT).show();
                         openNavigation();
                     }else{
