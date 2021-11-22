@@ -7,21 +7,57 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button loginButton;
+     Button loginBtn, regBtn;
+     EditText editUsr, editPwd;
+     DBHelper DB;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginButton = findViewById(R.id.loginBtn);
+        //reference layout
+        loginBtn= findViewById(R.id.loginBtn);
+        regBtn= findViewById(R.id.regBtn);
+        editUsr = findViewById(R.id.editUsr);
+        editPwd = findViewById(R.id.editPwd);
+        DB = new DBHelper(this);
 
-        loginButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
+
+        //listeners
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             public final void onClick(View it) {
-                openNavigation();
+
+                String user = editUsr.getText().toString();
+                String pass = editPwd.getText().toString();
+
+                if(user.equals("") || pass.equals(""))
+                    Toast.makeText(MainActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                else {
+                    Boolean checkuserpass = DB.checkusernamepassword(user,pass);
+                    if(checkuserpass==true){
+                        Toast.makeText(MainActivity.this, "Sign in successful", Toast.LENGTH_SHORT).show();
+                        openNavigation();
+                    }else{
+                        Toast.makeText(MainActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        regBtn.setOnClickListener(new View.OnClickListener() {
+            public final void onClick(View it) {
+
+                Intent intent = new Intent(getApplicationContext(), Registration.class);
+                startActivity(intent);
+
             }
         });
     }
