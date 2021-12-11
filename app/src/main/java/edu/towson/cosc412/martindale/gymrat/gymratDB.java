@@ -1,24 +1,23 @@
 package edu.towson.cosc412.martindale.gymrat;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 
-public class TritonDB {
-    public static final String host = "triton";
-    public static final int port = 3360;
-    public static final String dbName = "twilli70db";
-    public static final String dbUser = "twilli70";
-    public static final String dbPassword = "COSC*3acm9";
+public class gymratDB {
+    public static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
+    public static final int port = 3306;
+    public static final String dbName = "admin";
+    public static final String dbUser = "admin";
+    public static final String dbPassword = "12345678";
 
-    public static TritonDB instance;
+    public static gymratDB instance;
 
     Connection connection;
     Statement statement;
 
-    private TritonDB(){
+    private gymratDB(){
         try{
-            var url = String.format("jdbc:mysql://%s:%d/%s", host, port, dbName);
+            String url = String.format("jdbc:mysql://%s:%d/%s", host, port, dbName);
             connection = DriverManager.getConnection(url, dbUser, dbPassword);
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         }
@@ -27,16 +26,16 @@ public class TritonDB {
         }
     }
 
-    public static TritonDB getInstance(){
+    public static gymratDB getInstance(){
         if (instance == null){
-            instance = new TritonDB();
+            instance = new gymratDB();
         }
         return instance;
     }
 
     public String selectMax(String table, String attribute){
         try{
-            var result = executeQuery(String.format("SELECT MAX(%s) FROM %s", attribute, table));
+            ResultSet result = executeQuery(String.format("SELECT MAX(%s) FROM %s", attribute, table));
             result.next();
             return result.getString(1);
         }
@@ -53,7 +52,7 @@ public class TritonDB {
                 return;
             }
 
-            var insertion = new StringBuilder();
+            StringBuilder insertion = new StringBuilder();
             insertion.append("INSERT INTO " + table + "(");
             for(int i = 0; i < columns.length; i++){
                 insertion.append(columns[i]);
@@ -97,10 +96,10 @@ public class TritonDB {
 
     public String[] getResultColumns(ResultSet result){
         try{
-            var resultMeta = result.getMetaData();
-            var columnCount = resultMeta.getColumnCount();
-            var columnNames = new String[columnCount];
-            var rowEntries = new ArrayList<String[]>();
+            ResultSetMetaData resultMeta = result.getMetaData();
+            int columnCount = resultMeta.getColumnCount();
+            String[] columnNames = new String[columnCount];
+            ArrayList<String[]> rowEntries = new ArrayList<String[]>();
 
             for (int i = 1; i <= columnCount; i++){
                 columnNames[i - 1] = resultMeta.getColumnName(i);
@@ -117,19 +116,19 @@ public class TritonDB {
 
     public String[][] getResultRows(ResultSet result){
         try{
-            var resultMeta = result.getMetaData();
-            var columnCount = resultMeta.getColumnCount();
-            var rowList = new ArrayList<String[]>();
+            ResultSetMetaData resultMeta = result.getMetaData();
+            int columnCount = resultMeta.getColumnCount();
+            ArrayList<String[]> rowList = new ArrayList<String[]>();
 
             while(result.next()){
-                var rowEntry = new String[columnCount];
+                String[] rowEntry = new String[columnCount];
                 for (int i = 1; i <= columnCount; i++){
                     rowEntry[i - 1] = result.getString(i);
                 }
                 rowList.add(rowEntry);
             }
             if (rowList.size() > 0){
-                var rows = new String[rowList.size()][rowList.get(0).length];
+                String[][] rows = new String[rowList.size()][rowList.get(0).length];
                 for(int i = 0; i < rowList.size(); i++){
                     rows[i] = rowList.get(i);
                 }
@@ -146,10 +145,10 @@ public class TritonDB {
     public void printResult(ResultSet result){
         if (result != null){
             try {
-                var resultMeta = result.getMetaData();
-                var columns = resultMeta.getColumnCount();
-                var rows = new ArrayList<String>();
-                var format = new StringBuilder();
+                ResultSetMetaData resultMeta = result.getMetaData();
+                int columns = resultMeta.getColumnCount();
+                ArrayList<String> rows = new ArrayList<String>();
+                StringBuilder format = new StringBuilder();
 
                 result.beforeFirst();
 
@@ -163,14 +162,14 @@ public class TritonDB {
                 rows.clear();
                 while(result.next()){
                     for (int i = 1; i <= columns; i++){
-                        var columnValue = result.getString(i);
+                        String columnValue = result.getString(i);
                         rows.add("| " + columnValue + " |");
                     }
                     System.out.format(format + "\n", rows.toArray());
                 }
 
                 // May be unnecessary, intended show sql errors in console
-                var warning = result.getWarnings();
+                SQLWarning warning = result.getWarnings();
                 while (warning != null) {
                     System.out.println(warning.getMessage());
                     warning = warning.getNextWarning();
