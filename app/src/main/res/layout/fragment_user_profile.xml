@@ -19,16 +19,16 @@
             android:id="@+id/save_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#AAA1A1"
+            android:onClick="clickedSettings"
             android:text="Save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.843"
-            android:onClick="clickedSettings"
 
-            />
+            app:layout_constraintVertical_bias="0.843" />
 
         <EditText
             android:id="@+id/phone_number"
