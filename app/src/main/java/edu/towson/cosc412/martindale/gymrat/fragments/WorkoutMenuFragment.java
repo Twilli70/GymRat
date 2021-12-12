@@ -23,7 +23,7 @@ public class WorkoutMenuFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_workout_menu, container, false);
-        previousWorkoutsButton = view.findViewById(R.id.previousWorkoutsBtn);
+
         nextRecommendedButton = view.findViewById(R.id.nextRecommendedBtn);
         return view;
     }
