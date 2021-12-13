@@ -15,38 +15,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/save_contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#AAA1A1"
-            android:onClick="clickedSettings"
-            android:text="Save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            app:layout_constraintVertical_bias="0.843" />
-
         <EditText
             android:id="@+id/phone_number"
-            android:layout_width="150dp"
+            android:layout_width="300dp"
             android:layout_height="45dp"
-            android:layout_marginStart="32dp"
             android:ems="10"
             android:hint="Phone Number"
             android:inputType="phone"
             android:minHeight="48dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/email_address"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.152" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/email_address"
-            android:layout_width="150dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Email Address"
@@ -54,10 +38,8 @@
             android:minHeight="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintStart_toEndOf="@+id/phone_number"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.152" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phone_number" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,7 +54,7 @@
 
         <EditText
             android:id="@+id/goal_weight"
-            android:layout_width="81dp"
+            android:layout_width="100dp"
             android:layout_height="48dp"
             android:ems="10"
             android:hint="Goal Weight"
@@ -87,14 +69,14 @@
 
         <EditText
             android:id="@+id/current_weight"
-            android:layout_width="81dp"
+            android:layout_width="100dp"
             android:layout_height="48dp"
-            android:layout_marginStart="80dp"
             android:ems="10"
             android:hint="Current Weight"
             android:inputType="number"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/goal_weight"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.079" />
@@ -115,10 +97,10 @@
             android:id="@+id/lose_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:text="Lose Weight "
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/gain_mucsle"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.425" />
 
@@ -126,12 +108,14 @@
             android:id="@+id/gain_mucsle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="88dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="66dp"
             android:text="Gain Mucsle"
-            app:layout_constraintBottom_toTopOf="@+id/save_workouts"
+            app:layout_constraintBottom_toTopOf="@+id/saveUserProfileBtn"
             app:layout_constraintEnd_toStartOf="@+id/lose_weight"
+            app:layout_constraintStart_toEndOf="@+id/gain_weight"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
@@ -143,6 +127,7 @@
             android:text="Live Healthly Lifestyle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/maintain"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.762" />
 
@@ -150,6 +135,7 @@
             android:id="@+id/maintain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="Maintain Weight "
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/lifestyle"
@@ -171,7 +157,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <Button
-            android:id="@+id/save_workouts"
+            android:id="@+id/saveUserProfileBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
@@ -185,9 +171,9 @@
             android:id="@+id/abs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:text="Adonminal"
+            android:text="Abdonminal"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/legs"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.133" />
@@ -196,9 +182,9 @@
             android:id="@+id/legs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
             android:text="Legs"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/glutes"
             app:layout_constraintStart_toEndOf="@+id/abs"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.133" />
@@ -218,9 +204,9 @@
             android:id="@+id/arms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
             android:text="Arms"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/chest"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -228,9 +214,9 @@
             android:id="@+id/chest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:text="Chest"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/back"
             app:layout_constraintStart_toEndOf="@+id/arms"
             app:layout_constraintTop_toTopOf="parent" />
 
