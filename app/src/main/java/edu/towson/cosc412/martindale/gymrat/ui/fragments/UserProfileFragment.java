@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import androidx.fragment.app.Fragment;
 
 import edu.towson.cosc412.martindale.gymrat.R;
+import edu.towson.cosc412.martindale.gymrat.database.GymRatDB;
 
 public class UserProfileFragment extends Fragment {
 
