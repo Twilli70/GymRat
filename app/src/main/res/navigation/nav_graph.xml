@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="edu.towson.cosc412.martindale.gymrat.fragments.MainMenuFragment"
+        android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.MainMenuFragment"
         android:label="MainMenuFragment" >
         <action
             android:id="@+id/action_mainMenuFragment_to_userProfileFragment"
@@ -21,23 +21,23 @@
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="edu.towson.cosc412.martindale.gymrat.fragments.UserProfileFragment"
+        android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.UserProfileFragment"
         android:label="UserProfileFragment" />
     <fragment
         android:id="@+id/nextRecommendedWorkoutFragment"
-        android:name="edu.towson.cosc412.martindale.gymrat.fragments.NextRecommendedWorkoutFragment"
+        android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.NextRecommendedWorkoutFragment"
         android:label="NextRecommendedWorkoutFragment" />
     <fragment
         android:id="@+id/previousWorkoutsFragment"
-        android:name="edu.towson.cosc412.martindale.gymrat.fragments.PreviousWorkoutsFragment"
+        android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.PreviousWorkoutsFragment"
         android:label="PreviousWorkoutsFragment" />
     <fragment
         android:id="@+id/workoutDirectoryFragment"
-        android:name="edu.towson.cosc412.martindale.gymrat.fragments.WorkoutDirectoryFragment"
+        android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.WorkoutDirectoryFragment"
         android:label="WorkoutDirectoryFragment" />
     <fragment
         android:id="@+id/workoutMenuFragment"
-        android:name="edu.towson.cosc412.martindale.gymrat.fragments.WorkoutMenuFragment"
+        android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.WorkoutMenuFragment"
         android:label="WorkoutMenuFragment" >
         <action
             android:id="@+id/action_workoutMenuFragment_to_previousWorkoutsFragment"
@@ -48,7 +48,7 @@
     </fragment>
     <activity
         android:id="@+id/mainActivity3"
-        android:name="edu.towson.cosc412.martindale.gymrat.MainActivity"
+        android:name="edu.towson.cosc412.martindale.gymrat.ui.activities.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
 </navigation>

@@ -1,4 +1,4 @@
-package edu.towson.cosc412.martindale.gymrat;
+package edu.towson.cosc412.martindale.gymrat.old;
 
 import android.content.ContentValues;
 import android.content.Context;

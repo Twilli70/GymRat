@@ -1,21 +1,21 @@
-package edu.towson.cosc412.martindale.gymrat;
+package edu.towson.cosc412.martindale.gymrat.database;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class gymratDB {
+public class GymRatDB {
     public static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
     public static final int port = 3306;
     public static final String dbName = "admin";
     public static final String dbUser = "admin";
     public static final String dbPassword = "12345678";
 
-    public static gymratDB instance;
+    public static GymRatDB instance;
 
     Connection connection;
     Statement statement;
 
-    private gymratDB(){
+    private GymRatDB(){
         try{
             String url = String.format("jdbc:mysql://%s:%d/%s", host, port, dbName);
             connection = DriverManager.getConnection(url, dbUser, dbPassword);
@@ -26,9 +26,9 @@ public class gymratDB {
         }
     }
 
-    public static gymratDB getInstance(){
+    public static GymRatDB getInstance(){
         if (instance == null){
-            instance = new gymratDB();
+            instance = new GymRatDB();
         }
         return instance;
     }

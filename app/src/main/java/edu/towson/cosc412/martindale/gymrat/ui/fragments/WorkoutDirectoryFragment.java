@@ -1,4 +1,4 @@
-package edu.towson.cosc412.martindale.gymrat.fragments;
+package edu.towson.cosc412.martindale.gymrat.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package edu.towson.cosc412.martindale.gymrat;
+package edu.towson.cosc412.martindale.gymrat.ui;
 
 import android.view.View;
 

@@ -1,12 +1,14 @@
-package edu.towson.cosc412.martindale.gymrat;
+package edu.towson.cosc412.martindale.gymrat.ui.activities;
 
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.fragment.NavHostFragment;
 
 import static androidx.navigation.Navigation.findNavController;
+
+import edu.towson.cosc412.martindale.gymrat.ui.NavController;
+import edu.towson.cosc412.martindale.gymrat.R;
 
 
 public class NavigationActivity extends AppCompatActivity implements NavController {

@@ -1,4 +1,4 @@
-package edu.towson.cosc412.martindale.gymrat;
+package edu.towson.cosc412.martindale.gymrat.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import edu.towson.cosc412.martindale.gymrat.R;
+import edu.towson.cosc412.martindale.gymrat.old.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
 

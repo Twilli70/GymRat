@@ -1,4 +1,4 @@
-package edu.towson.cosc412.martindale.gymrat.fragments;
+package edu.towson.cosc412.martindale.gymrat.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
-import edu.towson.cosc412.martindale.gymrat.NavController;
+import edu.towson.cosc412.martindale.gymrat.ui.NavController;
 import edu.towson.cosc412.martindale.gymrat.R;
 
 public class MainMenuFragment extends Fragment {
