@@ -1,18 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/workoutDirectoryFragment"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DD8989">
+    android:background="@color/black"
+    >
+
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/whatDayBtn"
+        android:layout_width="189dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:text="WHAT DAY?"
+        android:textSize="34dp"
+        android:textColor="@color/design_default_color_on_primary"
+        app:layout_constraintBottom_toTopOf="@+id/chestDayBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.506" />
+
+    <Button
+        android:id="@+id/chestDayBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is the Workout Directory Page"
+        android:layout_marginTop="16dp"
+        android:background="#D5BFBF"
+        android:text="CHEST DAY"
+        app:layout_constraintBottom_toTopOf="@+id/backDayBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/whatDayBtn" />
+
+    <Button
+        android:id="@+id/backDayBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="BACK DAY"
+        app:layout_constraintBottom_toTopOf="@+id/shoulderDayBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chestDayBtn" />
+
+    <Button
+        android:id="@+id/shoulderDayBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="SHOULDER DAY"
+        app:layout_constraintBottom_toTopOf="@+id/legDayBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backDayBtn" />
+
+    <Button
+        android:id="@+id/legDayBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="LEG DAY"
+        app:layout_constraintBottom_toTopOf="@+id/armsDayBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shoulderDayBtn" />
+
+    <Button
+        android:id="@+id/armsDayBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="ARMS DAY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/legDayBtn" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="113dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/armsDayBtn"
+        app:layout_constraintTop_toTopOf="@+id/armsDayBtn"
+        app:srcCompat="@drawable/r_arm"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="113dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/backDayBtn"
+        app:layout_constraintTop_toTopOf="@+id/backDayBtn"
+        app:srcCompat="@drawable/r_back"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="113dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/chestDayBtn"
+        app:layout_constraintTop_toTopOf="@+id/chestDayBtn"
+        app:srcCompat="@drawable/r_chest"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="113dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/legDayBtn"
+        app:layout_constraintTop_toTopOf="@+id/legDayBtn"
+        app:srcCompat="@drawable/r_leg"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="wrap_content"
+        android:layout_height="113dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/shoulderDayBtn"
+        app:layout_constraintTop_toTopOf="@+id/shoulderDayBtn"
+        app:srcCompat="@drawable/r_shoulder"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
