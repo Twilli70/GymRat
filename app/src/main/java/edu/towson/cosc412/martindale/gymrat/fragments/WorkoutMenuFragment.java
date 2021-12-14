@@ -30,11 +30,12 @@ public class WorkoutMenuFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        previousWorkoutsButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
+    /*    previousWorkoutsButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
             public final void onClick(View v) {
                 navController.launchPrevious(v);
             }
         });
+        */
         nextRecommendedButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
             public final void onClick(View v) {
                 navController.launchNextRecommended(v);
