@@ -2,11 +2,12 @@ package edu.towson.cosc412.martindale.gymrat.database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GymRatDB {
     public static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
     public static final int port = 3306;
-    public static final String dbName = "admin";
+    public static final String dbName = "gymratDB";
     public static final String dbUser = "admin";
     public static final String dbPassword = "12345678";
 
@@ -17,7 +18,7 @@ public class GymRatDB {
 
     private GymRatDB(){
         try{
-            String url = String.format("jdbc:mysql://%s:%d/%s", host, port, dbName);
+            String url = String.format(Locale.ENGLISH,"jdbc:mysql://%s:%d/%s", host, port, dbName);
             connection = DriverManager.getConnection(url, dbUser, dbPassword);
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         }
@@ -31,6 +32,10 @@ public class GymRatDB {
             instance = new GymRatDB();
         }
         return instance;
+    }
+
+    public void addNewUser(UserData userData){
+        
     }
 
     public String selectMax(String table, String attribute){
