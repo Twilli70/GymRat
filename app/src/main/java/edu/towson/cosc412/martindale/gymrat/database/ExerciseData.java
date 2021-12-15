@@ -1,6 +1,6 @@
 package edu.towson.cosc412.martindale.gymrat.database;
 
-public class Exercise {
+public class ExerciseData {
     private enum BodyPart{
         Chest,
         Back,
