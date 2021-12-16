@@ -51,6 +51,22 @@ public class GymRatDB {
         return 1;
     }
 
+
+    public int addNewSession(String sessionID, String userName, SessionData sessionData) {
+         int nextID = Integer.parseInt(selectMax("Sessions", "sessionID")) + 1;
+        try {
+            ResultSet sessionResult = executeQuery("Select sessionID FROM Sessions WHERE sessionID = " + sessionID);
+            if (!sessionResult.next()) {
+                String insert = "INSERT INTO Sessions(sessionID, userName, routineID, startDate, endDate)\n";
+                insert += String.format("VALUES('%s', '%s', %s, %t,%t)",sessionID, userName, sessionData.routine, sessionData.startDate, sessionData.endDate);
+                executeUpdate(insert);
+                return 0;
+            }
+        } catch (Exception e) {
+        }
+        return 1;
+    }
+
     public String selectMax(String table, String attribute) {
         try {
             ResultSet result = executeQuery(String.format("SELECT MAX(%s) FROM %s", attribute, table));
