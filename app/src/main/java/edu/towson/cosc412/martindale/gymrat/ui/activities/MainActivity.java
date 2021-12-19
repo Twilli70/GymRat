@@ -23,7 +23,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_equipment_guide);
+        startActivity(new Intent(this, EquipmentGuide.class));
+
+        /*
 
         //reference layout
         loginBtn= findViewById(R.id.loginBtn);
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+
         });
 
         regBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        */
     }
 
 
