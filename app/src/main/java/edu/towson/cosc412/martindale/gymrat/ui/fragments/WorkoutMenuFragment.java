@@ -19,18 +19,16 @@ public class WorkoutMenuFragment extends Fragment {
 
     private Button workoutSummaryButton;
     private Button nextRecommendedButton;
-    private Button workoutHistoryButton;
-    private Button routineCreationButton;
-    private Button workoutProgressButton;
+    private Button sessionHistoryButton;
+    private Button routineListButton;
     private NavController navController;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_workout_menu, container, false);
 
         workoutSummaryButton = view.findViewById(R.id.workoutSummaryBtn);
-        workoutHistoryButton = view.findViewById(R.id.workoutHistoryBtn);
-        routineCreationButton = view.findViewById(R.id.routineCreationBtn);
-        workoutProgressButton = view.findViewById(R.id.workoutProgressBtn);
+        sessionHistoryButton = view.findViewById(R.id.workoutHistoryBtn);
+        routineListButton = view.findViewById(R.id.routineCreationBtn);
         nextRecommendedButton = view.findViewById(R.id.nextRecommendedBtn);
         return view;
     }
@@ -42,18 +40,15 @@ public class WorkoutMenuFragment extends Fragment {
                 navController.launchWorkoutSummary(v);
             }
         });
-        workoutHistoryButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
+        sessionHistoryButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
             public final void onClick(View v) {
-                navController.launchWorkoutHistory(v);
+                navController.launchSessionHistory(v);
             }
         });
-        routineCreationButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
+        routineListButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
             public final void onClick(View v) {
-                navController.launchRoutineCreation(v);
+                navController.launchRoutineListFromWorkoutMenu(v);
             }
-        });
-        workoutProgressButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
-            public final void onClick(View v) { navController.launchWorkoutProgress(v); }
         });
         nextRecommendedButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
             public final void onClick(View v) {

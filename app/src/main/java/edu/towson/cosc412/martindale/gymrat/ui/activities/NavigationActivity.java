@@ -35,8 +35,8 @@ public class NavigationActivity extends AppCompatActivity implements NavControll
     }
 
     @Override
-    public void launchWorkoutHistory(View v) {
-        findNavController(v).navigate(R.id.action_workoutMenuFragment_to_WorkoutHistoryFragment);
+    public void launchSessionHistory(View v) {
+        findNavController(v).navigate(R.id.action_workoutMenuFragment_to_sessionHistoryFragment);
     }
 
     @Override
@@ -50,13 +50,18 @@ public class NavigationActivity extends AppCompatActivity implements NavControll
     }
 
     @Override
-    public void launchWorkoutProgress(View v) {
-        findNavController(v).navigate(R.id.action_workoutMenuFragment_to_workoutProgressFragment);
+    public void launchRoutineCreation(View v) {
+        findNavController(v).navigate(R.id.action_routineListFragment_to_routineCreationFragment);
     }
 
     @Override
-    public void launchRoutineCreation(View v) {
-        findNavController(v).navigate(R.id.action_workoutMenuFragment_to_routineCreationFragment);
+    public void launchRoutineListFromWorkoutMenu(View v) {
+        findNavController(v).navigate(R.id.action_workoutMenuFragment_to_routineListFragment);
+    }
+
+    @Override
+    public void launchRoutineListFromCreation(View v) {
+        findNavController(v).navigate(R.id.action_routineCreationFragment_to_routineListFragment);
     }
 
     @Override

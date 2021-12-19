@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3EF60E0E">
+    android:background="#DD8989">
 
     <Button
         android:id="@+id/userProfileBtn"
