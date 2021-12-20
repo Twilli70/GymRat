@@ -1,29 +1,71 @@
 package edu.towson.cosc412.martindale.gymrat.database;
 
+import android.os.AsyncTask;
+import android.os.StrictMode;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class GymRatDB {
-    public static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
-    public static final int port = 3306;
-    public static final String dbName = "gymratDB";
-    public static final String dbUser = "admin";
-    public static final String dbPassword = "12345678";
+    class Task extends AsyncTask<Void, Void, Void>{
 
-    public static GymRatDB instance;
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+                System.out.println("Connecting To Database...");
+                DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
+                System.out.println("Database Connection success");
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
+    private static final int port = 3306;
+    private static final String dbName = "gymratdb";
+    private static final String dbUser = "admin";
+    private static final String dbPassword = "VobGjT47CiM2A";
+    private final ApplicationExecutors executors = new ApplicationExecutors();;
+
+    private static GymRatDB instance;
 
     Connection connection;
     Statement statement;
 
     private GymRatDB() {
-        try {
-            String url = String.format(Locale.ENGLISH, "jdbc:mysql://%s:%d/%s", host, port, dbName);
-            connection = DriverManager.getConnection(url, dbUser, dbPassword);
-            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        connectToDatabase();
+    }
+
+    private void connectToDatabase(){
+        executors.getBackground().execute(() -> {
+            try {
+
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                String url = "jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb";
+
+                System.out.println("Attempt to connect to database.");
+                connection = DriverManager.getConnection(url, "admin", "VobGjT47CiM2A");
+                System.out.println("Successfully connected to database.");
+
+                System.out.println("Attempt to create statement");
+                statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                System.out.println("Successfully created statement");
+
+            } catch (Exception e) {
+                System.out.println("Failed to connect to database.");
+                e.printStackTrace();
+            }
+        });
     }
 
     public static GymRatDB getInstance() {
@@ -33,13 +75,49 @@ public class GymRatDB {
         return instance;
     }
 
-    public void addNewUser(UserData userData) {
-
+    public void Test(){
+        new Task().doInBackground();
     }
 
+    public boolean hasUser(UserData userData){
+        String sql = "SELECT * FROM User WHERE username = '" + userData.username + "'";
+        try{
+            ResultSet result = executeQuery(sql);
+            System.out.println("Pizza");
+            System.out.println(result);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void addNewUser(UserData userData) {
+        String sql = "SELECT * FROM User WHERE username = " + userData.username;
+        try{
+            ResultSet result = executeQuery(sql);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public int addNewRoutine(RoutineData routineData) {
+        try {
+            ResultSet routineResult = executeQuery("Select routineID FROM Routine WHERE eName = " + routineData.routineID);
+            if (!routineResult.next()) {
+                String insert = "INSERT INTO ExeName,targetBodyPart, caloriesPerMinute, equipment)\n";
+                insert += String.format("VALUES('%s', '%d', %d, %s)", routineData.routineID, routineData.routineName, routineData.workouts);
+                executeUpdate(insert);
+                return 0;
+            }
+        } catch (Exception e) {
+        }
+        return 1;
+    }
     public int addNewExercise(ExerciseData exerciseData) {
         try {
-            ResultSet exerciseResult = executeQuery("Select eNAME FROM Exercise WHERE eName = " + exerciseData.name);
+            ResultSet exerciseResult = executeQuery("Select exercise NAME FROM Exercise WHERE eName = " + exerciseData.name);
             if (!exerciseResult.next()) {
                 String insert = "INSERT INTO Exercise(eName,targetBodyPart, caloriesPerMinute, equipment)\n";
                 insert += String.format("VALUES('%s', '%d', %d, %s)", exerciseData.name, exerciseData.targetBodyPart, exerciseData.caloriesPerMinute, exerciseData.equipment);
@@ -52,13 +130,14 @@ public class GymRatDB {
     }
 
 
+
     public int addNewSession(String sessionID, String userName, SessionData sessionData) {
          int nextID = Integer.parseInt(selectMax("Sessions", "sessionID")) + 1;
         try {
             ResultSet sessionResult = executeQuery("Select sessionID FROM Sessions WHERE sessionID = " + sessionID);
             if (!sessionResult.next()) {
                 String insert = "INSERT INTO Sessions(sessionID, userName, routineID, startDate, endDate)\n";
-                insert += String.format("VALUES('%s', '%s', %s, %t,%t)",sessionID, userName, sessionData.routine, sessionData.startDate, sessionData.endDate);
+                insert += String.format("VALUES('%s', '%s', %s, %t,%t)",sessionID, userName, sessionData.routine, sessionData.startDateTime, sessionData.endDateTime);
                 executeUpdate(insert);
                 return 0;
             }
