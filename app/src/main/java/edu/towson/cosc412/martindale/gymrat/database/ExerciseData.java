@@ -1,17 +1,11 @@
 package edu.towson.cosc412.martindale.gymrat.database;
 
-public class ExerciseData {
-    private enum BodyPart{
-        Chest,
-        Back,
-        Arms,
-        Abdominal,
-        Legs,
-        Shoulders,
-    }
+import java.util.Date;
 
-    public String name;
+public class ExerciseData {
+    public String exerciseName;
     public String equipment;
-    public BodyPart targetBodyPart;
+    public String targetBodyPart;
     public double caloriesPerMinute;
+    public float estimateTime;
 }

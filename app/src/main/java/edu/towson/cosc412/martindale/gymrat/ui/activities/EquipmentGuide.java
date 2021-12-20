@@ -46,10 +46,6 @@ public class EquipmentGuide extends AppCompatActivity {
                     firstImage.setImageResource(R.drawable.chest_stick_figure);
                 } else if (str[1].equals(spinnerDrop.getItemAtPosition(position).toString())) {
                     firstImage.setImageResource(R.drawable.legs1);
-                    Executors.newSingleThreadExecutor().execute(() -> {
-                        GymRatDB db = GymRatDB.getInstance();
-                        System.out.println(db.hasUser(new UserData("benny")));
-                    });
                 }
             }
 
