@@ -2,8 +2,6 @@ package edu.towson.cosc412.martindale.gymrat.ui.activities;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -12,17 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 import edu.towson.cosc412.martindale.gymrat.R;
-import edu.towson.cosc412.martindale.gymrat.database.GymRatDB;
-import edu.towson.cosc412.martindale.gymrat.database.UserData;
 
 public class EquipmentGuide extends AppCompatActivity {
     Spinner spinnerDrop;

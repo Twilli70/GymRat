@@ -1,10 +1,20 @@
 package edu.towson.cosc412.martindale.gymrat.database;
 
+import android.util.Log;
+
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+
+import edu.towson.cosc412.martindale.gymrat.database.entities.Equipment;
+import edu.towson.cosc412.martindale.gymrat.database.entities.Exercise;
+import edu.towson.cosc412.martindale.gymrat.database.entities.Routine;
+import edu.towson.cosc412.martindale.gymrat.database.entities.Session;
+import edu.towson.cosc412.martindale.gymrat.database.entities.User;
+import edu.towson.cosc412.martindale.gymrat.database.entities.WeightOverTime;
+import edu.towson.cosc412.martindale.gymrat.database.entities.Workout;
 
 public class GymRatDB {
     private static GymRatDB instance;
@@ -15,12 +25,12 @@ public class GymRatDB {
     private GymRatDB() {
         Thread thread = new Thread(() -> {
             try {
-                System.out.println("Attempting to connect to database...");
+                Log.i("DB Connection", "Attempting connection...");
                 connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
                 statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                System.out.println("Successfully connected to database!");
+                Log.i("DB Connection", "Successfully connected!");
             } catch (Exception e) {
-                System.out.println("Failed to connect to database");
+                Log.i("DB Connection", "Failed to connect!");
                 e.printStackTrace();
             }
         });
@@ -40,268 +50,199 @@ public class GymRatDB {
         return instance;
     }
 
-    public void setCurrentUser(String currentUser){
-        this.currentUser = currentUser;
+    public boolean hasUser(String username) {
+        try {
+            ResultSet result = statement.executeQuery(String.format("Select username FROM User WHERE username = '%s'", username));
+            if (result.next()) {
+                String user = result.getString(1);
+                if (username.equals(user)) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    public int addNewUser(UserData userData) {
+    public boolean login(String username, String password) {
         try {
-            ResultSet userResult = executeQuery(String.format("Select * FROM User WHERE username = '%s'", userData.username));
+            ResultSet result = statement.executeQuery(String.format("Select username, password FROM User WHERE username = '%s'", username));
+            if (result.next()) { // If the user exists
+                String user = result.getString("username");
+                String pass = result.getString("password");
+                if (username.equals(user) && password.equals(pass)) {
+                    currentUser = username;
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public boolean addNewUser(User user) {
+        try {
+            ResultSet userResult = statement.executeQuery(String.format("Select * FROM User WHERE username = '%s'", user.username));
             if (!userResult.next()) {
                 String insert = "INSERT INTO User(username, password, firstName, lastName, birthdate,height)\n";
-
-
-                insert += String.format(Locale.ENGLISH, "VALUES('%s', '%s','%s','%s', '%s','%f')", userData.username, userData.password, userData.firstName, userData.lastName, userData.birthdayDate, userData.height);
-                executeUpdate(insert);
-                return 0;
+                insert += String.format(Locale.ENGLISH, "VALUES('%s', '%s','%s','%s', '%s','%f')", user.username, user.password, user.firstName, user.lastName, user.getBirthdayDate(), user.height);
+                statement.executeUpdate(insert);
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 1;
+        return false;
     }
 
-    public int addNewRoutine(UserData userData, RoutineData routineData) {
+    public boolean updatePassword(String username, String newPassword){
         try {
+            String insert = "UPDATE User\n";
+            insert += String.format(Locale.ENGLISH, "SET password = %s\n", newPassword);
+            insert += String.format(Locale.ENGLISH, "WHERE username = %s", username);
+            statement.executeUpdate(insert);
+            return true;
 
-            ResultSet routineResult = executeQuery(String.format("Select routineID FROM Routine WHERE routineID = '%d'", routineData.routineID));
-            if (!routineResult.next()) {
-                String insert = "INSERT INTO Routine(routineName, userName)\n";
-                insert += String.format("VALUES('%s','%s')", routineData.routineName, userData.username);
-                executeUpdate(insert);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-                for (int i = 0; i < routineData.workouts.size(); i++) {
-                    WorkoutData wd = routineData.workouts.get(i);
-                    String exerciseName = wd.exerciseData.exerciseName;
-                    int sets = wd.sets;
-                    int reps = wd.reps;
+    // Untested - Have fun
+    public ArrayList<Session> getAllSessions(String username) {
+        try {
+            ResultSet result = statement.executeQuery(String.format("Select * FROM Sessions WHERE username = '%s' ORDER BY startDate", username));
+            ArrayList<Session> sessions = new ArrayList<>();
+            while (result.next()) {
+                Session session = new Session();
+                session.id = result.getInt("sessionID");
+                session.username = result.getString("userName");
+                session.startDateTime = LocalDateTime.parse(result.getString("startDate"));
+                session.endDateTime = LocalDateTime.parse(result.getString("endDate"));
+                session.caloriesBurned = result.getFloat("caloriesBurned");
 
-                    insert = "INSERT INTO RoutineHasWorkout(exerciseName, sets, reps, position)";
-                    insert += String.format("VALUES('%s', '%s', '%s', '%d'", exerciseName, sets, reps, i);
-                    executeUpdate(insert);
+                int routineID = result.getInt("routineID");
+                ResultSet routineQuery = statement.executeQuery(String.format(Locale.ENGLISH,"SELECT * FROM Routine WHERE routineID = %d", routineID));
+                if (routineQuery.next()){
+                    Routine routine = new Routine();
+                    routine.id = routineQuery.getInt("routineID");
+                    routine.username = routineQuery.getString("username");
+                    routine.name = routineQuery.getString("routineName");
+                    session.routine = routine;
+
+                    ArrayList<Workout> workouts = new ArrayList<>();
+                    ResultSet routineHasWorkoutQuery = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM RoutineHasWorkout WHERE routineID = %d ORDER BY position", routine.id));
+                    while (routineHasWorkoutQuery.next()){
+                        Workout workout = new Workout();
+                        workout.reps = routineHasWorkoutQuery.getInt("reps");
+                        workout.sets = routineHasWorkoutQuery.getInt("sets");
+                        workout.breakTime = routineHasWorkoutQuery.getFloat("breakTime");
+
+                        String exerciseName = routineHasWorkoutQuery.getString("exerciseName");
+                        ResultSet exerciseQuery = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM Exercise WHERE exerciseName = %s", exerciseName));
+                        if(exerciseQuery.next()){
+                            Exercise exercise = new Exercise();
+                            exercise.name = exerciseQuery.getString("exerciseName");
+                            exercise.equipmentID = exerciseQuery.getInt("equipmentID");
+                            exercise.targetBodyPart = exerciseQuery.getString("targetBodyPart");
+                            exercise.caloriesPerMinute = exerciseQuery.getFloat("caloriesPerMin");
+                            exercise.estimateTime = exerciseQuery.getFloat("estimateTime");
+                            workout.exercise = exercise;
+                        }
+                        workouts.add(workout);
+                    }
+                    routine.workouts = workouts;
+                }
+                else {
+                    Log.e("ERROR", "This literally should not be possible, send help");
                 }
 
-                return 0;
+                sessions.add(session);
             }
+            return sessions;
         } catch (Exception e) {
+            e.printStackTrace();
         }
-        return 1;
+        return null;
     }
 
-    public int addNewExercise(ExerciseData exerciseData, EquipmentData equipmentData) {
+    // Untested
+    public boolean addNewRoutine(String routineName, ArrayList<Workout> workouts) {
         try {
-            ResultSet exerciseResult = executeQuery(String.format("Select exerciseName FROM Exercise WHERE exerciseName = '%s'", exerciseData.exerciseName));
+            String insert = "INSERT INTO Routine(routineName, userName)\n";
+            insert += String.format("VALUES('%s','%s')", routineName, currentUser);
+            statement.executeUpdate(insert);
 
-            if (!exerciseResult.next()) {
-                String insert = "INSERT INTO Exercise(exerciseName,equipmentID,targetBodyPart, caloriesPerMinute, estimateTime)\n";
-                insert += String.format(Locale.ENGLISH, "VALUES('%d', '%s', %s, %f)", equipmentData.equipmentID, exerciseData.exerciseName, exerciseData.targetBodyPart, exerciseData.caloriesPerMinute, exerciseData.estimateTime);
-                executeUpdate(insert);
-                return 0;
+            for (int i = 0; i < workouts.size(); i++) {
+                Workout wd = workouts.get(i);
+                String exerciseName = wd.exercise.name;
+                int sets = wd.sets;
+                int reps = wd.reps;
+
+                insert = "INSERT INTO RoutineHasWorkout(exerciseName, sets, reps, position)";
+                insert += String.format(Locale.ENGLISH, "VALUES('%s', '%s', '%s', '%d'", exerciseName, sets, reps, i);
+                statement.executeUpdate(insert);
             }
+
+            return true;
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
-        return 1;
+        return false;
     }
 
-    public int addNewSession(UserData userData, SessionData sessionData) {
-
-        sessionData.sessionID = Integer.parseInt(selectMax("Sessions", "sessionID")) + 1;
+    // Untested
+    // TODO: calculate calories burned from given data
+    public boolean saveSession(String username, int routineID, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         try {
-            ResultSet sessionResult = executeQuery(String.format("Select sessionID FROM Sessions WHERE sessionID ='%d' ", sessionData.sessionID));
-            if (!sessionResult.next()) {
-                String insert = "INSERT INTO Sessions(userName, routineID, startDate, endDate)\n";
-                insert += String.format("VALUES('%s', '%d', %s, %s)", userData.username, sessionData.routine.routineID, sessionData.startDateTime, sessionData.endDateTime);
-                executeUpdate(insert);
-                return 0;
-            }
+            String insert = "INSERT INTO Sessions(userName, routineID, startDate, endDate)\n";
+            insert += String.format(Locale.ENGLISH, "VALUES('%s', '%d', %s, %s)", username, routineID, startDateTime, endDateTime);
+            statement.executeUpdate(insert);
+            return true;
         } catch (Exception e) {
+            e.printStackTrace();
         }
-        return 1;
+        return false;
     }
 
-    public int addNewEquipment(EquipmentData equipmentData) {
+    // Untested
+    public boolean addWorkout(Workout workoutData, Exercise exercise) {
+
         try {
-            ResultSet equipmentResult = executeQuery(String.format("Select equipmentID FROM Equipment WHERE equipmentID = '%d'", equipmentData.equipmentID));
-            if (!equipmentResult.next()) {
-                String insert = "INSERT INTO Equipment(equipmentName)\n";
-                insert += String.format("VALUES('%s')", equipmentData.equipmentName);
-                executeUpdate(insert);
-                return 0;
-            }
+            String insert = "INSERT INTO Workout(exerciseName,reps,sets,breakTime)\n";
+            insert += String.format(Locale.ENGLISH, "VALUES('%s', '%d', '%d', '%f')", exercise.name, workoutData.reps, workoutData.sets, workoutData.breakTime);
+            statement.executeUpdate(insert);
+            return true;
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
-        return 1;
+        return false;
     }
 
-    public int addWorkout(WorkoutData workoutData, ExerciseData excerciseData) {
-
+    // Untested
+    public boolean addWeightOverTime(String username, LocalDate date, float weight) {
         try {
-            ResultSet workoutResult = executeQuery(String.format("Select exerciseName FROM Workout WHERE exerciseName = ", excerciseData.exerciseName));
-            if (!workoutResult.next()) {
-                String insert = "INSERT INTO Workout(exerciseName,reps,sets,breakTime)\n";
-                insert += String.format("VALUES('%s', '%d', '%d', '%f')", excerciseData.exerciseName, workoutData.reps, workoutData.sets, workoutData.breakTime);
-                executeUpdate(insert);
-                return 0;
-            }
-        } catch (Exception e) {
-        }
-        return 1;
-    }
-
-    public int addWeightOverTime(WeightOverTime weightOverTime, UserData userData) {
-        try {
-            ResultSet sessionResult = executeQuery(String.format("Select date FROM WeightOverTime WHERE date = ", weightOverTime.date));
+            ResultSet sessionResult = statement.executeQuery(String.format(Locale.ENGLISH, "Select date FROM WeightOverTime WHERE date = '%s'", date));
             if (!sessionResult.next()) {
                 String insert = "INSERT INTO WeightOvertTime(date,username,weight)\n";
-                insert += String.format("VALUES('%s', '%s', '%f')", weightOverTime.date, userData.username, weightOverTime.weight);
-                executeUpdate(insert);
-                return 0;
+                insert += String.format(Locale.ENGLISH, "VALUES('%s', '%s', '%f')", date, username, weight);
+                statement.executeUpdate(insert);
+
+            } else {
+                String update = String.format(Locale.ENGLISH, "UPDATE WeightOverTime SET weight = %f WHERE date = '%s'", weight, date);
+                statement.executeUpdate(update);
             }
-        } catch (Exception e) {
-        }
-        return 1;
-    }
-
-
-    public String selectMax(String table, String attribute) {
-        try {
-            ResultSet result = executeQuery(String.format("SELECT MAX(%s) FROM %s", attribute, table));
-            result.next();
-            return result.getString(1);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        return false;
     }
 
-    public void insertStringInto(String table, String[] columns, String[] values) {
-        try {
-            if (columns.length != values.length) {
-                System.out.println("insertion amount does not match column amount");
-                return;
-            }
-
-            StringBuilder insertion = new StringBuilder();
-            insertion.append("INSERT INTO " + table + "(");
-            for (int i = 0; i < columns.length; i++) {
-                insertion.append(columns[i]);
-                if (i < columns.length - 1) {
-                    insertion.append(",");
-                }
-            }
-            insertion.append(")\n");
-
-            insertion.append("VALUES(");
-            for (int i = 0; i < values.length; i++) {
-                insertion.append("\"" + values[i] + "\"");
-                if (i < values.length - 1) {
-                    insertion.append(",");
-                }
-            }
-            insertion.append(");");
-            System.out.println(insertion);
-            statement.executeUpdate(insertion.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void executeUpdate(String sql) {
-        try {
-            statement.executeUpdate(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ResultSet executeQuery(String sql) throws SQLException {
-        if (connection != null) {
-            return statement.executeQuery(sql);
-        }
-        return null;
-    }
-
-    public String[] getResultColumns(ResultSet result) {
-        try {
-            ResultSetMetaData resultMeta = result.getMetaData();
-            int columnCount = resultMeta.getColumnCount();
-            String[] columnNames = new String[columnCount];
-            ArrayList<String[]> rowEntries = new ArrayList<String[]>();
-
-            for (int i = 1; i <= columnCount; i++) {
-                columnNames[i - 1] = resultMeta.getColumnName(i);
-            }
-            return columnNames;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public String[][] getResultRows(ResultSet result) {
-        try {
-            ResultSetMetaData resultMeta = result.getMetaData();
-            int columnCount = resultMeta.getColumnCount();
-            ArrayList<String[]> rowList = new ArrayList<String[]>();
-
-            while (result.next()) {
-                String[] rowEntry = new String[columnCount];
-                for (int i = 1; i <= columnCount; i++) {
-                    rowEntry[i - 1] = result.getString(i);
-                }
-                rowList.add(rowEntry);
-            }
-            if (rowList.size() > 0) {
-                String[][] rows = new String[rowList.size()][rowList.get(0).length];
-                for (int i = 0; i < rowList.size(); i++) {
-                    rows[i] = rowList.get(i);
-                }
-                return rows;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public void printResult(ResultSet result) {
-        if (result != null) {
-            try {
-                ResultSetMetaData resultMeta = result.getMetaData();
-                int columns = resultMeta.getColumnCount();
-                ArrayList<String> rows = new ArrayList<String>();
-                StringBuilder format = new StringBuilder();
-
-                result.beforeFirst();
-
-                for (int i = 1; i <= columns; i++) {
-                    rows.add("[ " + resultMeta.getColumnName(i) + " ]");
-                    format.append("%").append(i).append("$-35s");
-                }
-
-                System.out.format(format + "\n", rows.toArray());
-
-                rows.clear();
-                while (result.next()) {
-                    for (int i = 1; i <= columns; i++) {
-                        String columnValue = result.getString(i);
-                        rows.add("| " + columnValue + " |");
-                    }
-                    System.out.format(format + "\n", rows.toArray());
-                }
-
-                // May be unnecessary, intended show sql errors in console
-                SQLWarning warning = result.getWarnings();
-                while (warning != null) {
-                    System.out.println(warning.getMessage());
-                    warning = warning.getNextWarning();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
