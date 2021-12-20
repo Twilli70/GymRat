@@ -48,9 +48,6 @@ public class GymRatDB {
             StrictMode.setThreadPolicy(policy);
             /*
             String url = String.format(Locale.ENGLISH, "jdbc:mysql://%s:%d/%s", host, port, dbName);
-            connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
-            //connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", "triton", 3360, "twilli70db"), "twilli70", "COSC*3acm9");
-            System.out.println("Database Connection success");
 
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             System.out.println("ABC");
@@ -97,9 +94,22 @@ public class GymRatDB {
         }
     }
 
+    public int addNewRoutine(RoutineData routineData) {
+        try {
+            ResultSet routineResult = executeQuery("Select routineID FROM Routine WHERE eName = " + routineData.routineID);
+            if (!routineResult.next()) {
+                String insert = "INSERT INTO ExeName,targetBodyPart, caloriesPerMinute, equipment)\n";
+                insert += String.format("VALUES('%s', '%d', %d, %s)", routineData.routineID, routineData.routineName, routineData.workouts);
+                executeUpdate(insert);
+                return 0;
+            }
+        } catch (Exception e) {
+        }
+        return 1;
+    }
     public int addNewExercise(ExerciseData exerciseData) {
         try {
-            ResultSet exerciseResult = executeQuery("Select eNAME FROM Exercise WHERE eName = " + exerciseData.name);
+            ResultSet exerciseResult = executeQuery("Select exercise NAME FROM Exercise WHERE eName = " + exerciseData.name);
             if (!exerciseResult.next()) {
                 String insert = "INSERT INTO Exercise(eName,targetBodyPart, caloriesPerMinute, equipment)\n";
                 insert += String.format("VALUES('%s', '%d', %d, %s)", exerciseData.name, exerciseData.targetBodyPart, exerciseData.caloriesPerMinute, exerciseData.equipment);
@@ -112,13 +122,14 @@ public class GymRatDB {
     }
 
 
+
     public int addNewSession(String sessionID, String userName, SessionData sessionData) {
          int nextID = Integer.parseInt(selectMax("Sessions", "sessionID")) + 1;
         try {
             ResultSet sessionResult = executeQuery("Select sessionID FROM Sessions WHERE sessionID = " + sessionID);
             if (!sessionResult.next()) {
                 String insert = "INSERT INTO Sessions(sessionID, userName, routineID, startDate, endDate)\n";
-                insert += String.format("VALUES('%s', '%s', %s, %t,%t)",sessionID, userName, sessionData.routine, sessionData.startDate, sessionData.endDate);
+                insert += String.format("VALUES('%s', '%s', %s, %t,%t)",sessionID, userName, sessionData.routine, sessionData.startDateTime, sessionData.endDateTime);
                 executeUpdate(insert);
                 return 0;
             }
@@ -126,6 +137,10 @@ public class GymRatDB {
         }
         return 1;
     }
+
+
+
+
 
     public String selectMax(String table, String attribute) {
         try {
