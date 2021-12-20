@@ -11,7 +11,6 @@
         android:layout_width="375dp"
         android:layout_height="0dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/Goals"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,7 +20,7 @@
             android:layout_width="300dp"
             android:layout_height="45dp"
             android:ems="10"
-            android:hint="Phone Number"
+            android:hint="Birthday"
             android:inputType="phone"
             android:minHeight="48dp"
             app:layout_constraintBottom_toTopOf="@+id/email_address"
@@ -34,7 +33,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Email Address"
+            android:hint="Height"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,119 +43,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/Goals"
-        android:layout_width="375dp"
-        android:layout_height="250dp"
-        app:layout_constraintBottom_toTopOf="@+id/Workouts"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ContactInfo">
-
-        <EditText
-            android:id="@+id/goal_weight"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:ems="10"
-            android:hint="Goal Weight"
-            android:inputType="number"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.218"
-            app:layout_constraintStart_toEndOf="@+id/current_weight"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.079" />
-
-        <EditText
-            android:id="@+id/current_weight"
-            android:layout_width="100dp"
-            android:layout_height="48dp"
-            android:ems="10"
-            android:hint="Current Weight"
-            android:inputType="number"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/goal_weight"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.079" />
-
-        <CheckBox
-            android:id="@+id/gain_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gain Weight"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/gain_mucsle"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.425" />
-
-        <CheckBox
-            android:id="@+id/lose_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lose Weight "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/gain_mucsle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.425" />
-
-        <CheckBox
-            android:id="@+id/gain_mucsle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="88dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="66dp"
-            android:text="Gain Mucsle"
-            app:layout_constraintBottom_toTopOf="@+id/saveUserProfileBtn"
-            app:layout_constraintEnd_toStartOf="@+id/lose_weight"
-            app:layout_constraintStart_toEndOf="@+id/gain_weight"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <CheckBox
-            android:id="@+id/lifestyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="Live Healthly Lifestyle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/maintain"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.762" />
-
-        <CheckBox
-            android:id="@+id/maintain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Maintain Weight "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/lifestyle"
-            app:layout_constraintHorizontal_bias="0.471"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.762" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/Workouts"
         android:layout_width="375dp"
         android:layout_height="0dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Goals"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/saveUserProfileBtn"
@@ -169,67 +62,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.92" />
 
-        <CheckBox
-            android:id="@+id/abs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Abdonminal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/legs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.133" />
-
-        <CheckBox
-            android:id="@+id/legs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Legs"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/glutes"
-            app:layout_constraintStart_toEndOf="@+id/abs"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.133" />
-
-        <CheckBox
-            android:id="@+id/glutes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Glutes"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/legs"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.133" />
-
-        <CheckBox
-            android:id="@+id/arms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Arms"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/chest"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <CheckBox
-            android:id="@+id/chest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chest"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/back"
-            app:layout_constraintStart_toEndOf="@+id/arms"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <CheckBox
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/chest"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
