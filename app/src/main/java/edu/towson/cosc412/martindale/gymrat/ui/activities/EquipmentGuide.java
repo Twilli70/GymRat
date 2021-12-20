@@ -18,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import edu.towson.cosc412.martindale.gymrat.R;
+import edu.towson.cosc412.martindale.gymrat.database.GymRatDB;
 
 public class EquipmentGuide extends AppCompatActivity {
     Spinner spinnerDrop;
@@ -30,7 +31,7 @@ public class EquipmentGuide extends AppCompatActivity {
         setContentView(R.layout.activity_equipment_guide);
         final String[] str = {"ChestOne", "LegOne"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(EquipmentGuide.this, android.R.layout.simple_dropdown_item_1line, str);
-        System.out.println("HELLO");
+
         spinnerDrop = findViewById(R.id.spinnerDrop);
         firstImage = findViewById(R.id.firstImage);
         spinnerDrop.setAdapter(arrayAdapter);
@@ -41,6 +42,9 @@ public class EquipmentGuide extends AppCompatActivity {
                     firstImage.setImageResource(R.drawable.chest_stick_figure);
                 } else if (str[1].equals(spinnerDrop.getItemAtPosition(position).toString())) {
                     firstImage.setImageResource(R.drawable.legs1);
+                    System.out.println("HELLO");
+                    GymRatDB db = GymRatDB.getInstance();
+                    db.Test();
                 }
             }
 

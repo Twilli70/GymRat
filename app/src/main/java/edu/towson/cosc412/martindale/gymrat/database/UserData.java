@@ -9,4 +9,8 @@ public class UserData {
     public String lastName;
     public float height;
     public Date birthdayDate;
+
+    public UserData(String user){
+        username = user;
+    }
 }

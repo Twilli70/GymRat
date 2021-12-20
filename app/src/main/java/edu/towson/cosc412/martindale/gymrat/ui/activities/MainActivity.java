@@ -2,18 +2,43 @@ package edu.towson.cosc412.martindale.gymrat.ui.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 import edu.towson.cosc412.martindale.gymrat.R;
+import edu.towson.cosc412.martindale.gymrat.database.GymRatDB;
+import edu.towson.cosc412.martindale.gymrat.database.UserData;
 import edu.towson.cosc412.martindale.gymrat.old.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
+    @SuppressLint("StaticFieldLeak")
+    class Task extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try{
+                System.out.println("Attempt to Connect");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb?enabledTLSProtocols=TLSv1.2", "admin", "VobGjT47CiM2A");
+                System.out.println("Connected!");
+            }
+            catch (Exception e){
+                System.out.println("Failed To Connect");
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 
      Button loginBtn, regBtn;
      EditText editUsr, editPwd;
@@ -23,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_equipment_guide);
-        startActivity(new Intent(this, EquipmentGuide.class));
-
+        setContentView(R.layout.activity_main);
+        new Task().execute();
+        //GymRatDB.getInstance();
         /*
 
         //reference layout
