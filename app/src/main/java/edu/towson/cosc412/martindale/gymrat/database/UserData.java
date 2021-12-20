@@ -10,7 +10,5 @@ public class UserData {
     public float height;
     public Date birthdayDate;
 
-    public UserData(String user){
-        username = user;
-    }
+    //public UserData(String user){ username = user; }
 }

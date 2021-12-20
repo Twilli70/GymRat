@@ -96,7 +96,7 @@ public class GymRatDB {
 
     public int addNewRoutine(RoutineData routineData) {
         try {
-            ResultSet routineResult = executeQuery("Select routineID FROM Routine WHERE eName = " + routineData.routineID);
+            ResultSet routineResult = executeQuery("Select routineID FROM Routine WHERE routineID = " + routineData.routineID);
             if (!routineResult.next()) {
                 String insert = "INSERT INTO ExeName,targetBodyPart, caloriesPerMinute, equipment)\n";
                 insert += String.format("VALUES('%s', '%d', %d, %s)", routineData.routineID, routineData.routineName, routineData.workouts);
@@ -123,13 +123,14 @@ public class GymRatDB {
 
 
 
-    public int addNewSession(String sessionID, String userName, SessionData sessionData) {
+    public int addNewSession(String userName, SessionData sessionData) {
+        UserData usrName = new UserData();
          int nextID = Integer.parseInt(selectMax("Sessions", "sessionID")) + 1;
         try {
-            ResultSet sessionResult = executeQuery("Select sessionID FROM Sessions WHERE sessionID = " + sessionID);
+            ResultSet sessionResult = executeQuery("Select sessionID FROM Sessions WHERE sessionID = " + sessionData.sessionID);
             if (!sessionResult.next()) {
                 String insert = "INSERT INTO Sessions(sessionID, userName, routineID, startDate, endDate)\n";
-                insert += String.format("VALUES('%s', '%s', %s, %t,%t)",sessionID, userName, sessionData.routine, sessionData.startDateTime, sessionData.endDateTime);
+                insert += String.format("VALUES('%s', '%s', %s, %t,%t)",usrName.username,sessionData.sessionID, userName, sessionData.routine, sessionData.startDateTime, sessionData.endDateTime);
                 executeUpdate(insert);
                 return 0;
             }

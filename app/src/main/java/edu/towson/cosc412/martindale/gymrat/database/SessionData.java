@@ -8,5 +8,7 @@ public class SessionData {
     public RoutineData routine;
     public Date startDateTime;
     public Date endDateTime;
+    public UserData username;
+    public float caloriesBurned;
 
 }
