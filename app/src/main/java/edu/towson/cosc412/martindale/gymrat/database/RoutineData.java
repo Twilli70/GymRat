@@ -5,7 +5,7 @@ import java.util.*;
 public class RoutineData {
     public ArrayList<WorkoutData> workouts = new ArrayList<>();
     public String routineName;
-    public String routineID;
+    public int routineID;
 
 }
 
