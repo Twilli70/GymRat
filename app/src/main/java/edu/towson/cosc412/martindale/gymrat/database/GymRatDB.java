@@ -137,22 +137,23 @@ public class GymRatDB {
                     ArrayList<Workout> workouts = new ArrayList<>();
                     ResultSet routineHasWorkoutQuery = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM RoutineHasWorkout WHERE routineID = %d ORDER BY position", routine.id));
                     while (routineHasWorkoutQuery.next()){
-                        Workout workout = new Workout();
-                        workout.reps = routineHasWorkoutQuery.getInt("reps");
-                        workout.sets = routineHasWorkoutQuery.getInt("sets");
-                        workout.breakTime = routineHasWorkoutQuery.getFloat("breakTime");
-
+                        int id = routineHasWorkoutQuery.getInt("workoutID");
+                        int reps = routineHasWorkoutQuery.getInt("reps");
+                        int sets = routineHasWorkoutQuery.getInt("sets");
+                        float breakTime = routineHasWorkoutQuery.getFloat("breakTime");
+                        Exercise exercise = null;
                         String exerciseName = routineHasWorkoutQuery.getString("exerciseName");
                         ResultSet exerciseQuery = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM Exercise WHERE exerciseName = %s", exerciseName));
+
                         if(exerciseQuery.next()){
-                            Exercise exercise = new Exercise();
+                            exercise = new Exercise();
                             exercise.name = exerciseQuery.getString("exerciseName");
                             exercise.equipmentID = exerciseQuery.getInt("equipmentID");
                             exercise.targetBodyPart = exerciseQuery.getString("targetBodyPart");
                             exercise.caloriesPerMinute = exerciseQuery.getFloat("caloriesPerMin");
                             exercise.estimateTime = exerciseQuery.getFloat("estimateTime");
-                            workout.exercise = exercise;
                         }
+                        Workout workout = new Workout(id, exercise, reps, sets, breakTime);
                         workouts.add(workout);
                     }
                     routine.workouts = workouts;
@@ -170,25 +171,23 @@ public class GymRatDB {
         return null;
     }
 
-    // Untested
-    public boolean addNewRoutine(String routineName, ArrayList<Workout> workouts) {
+    public boolean addNewRoutine(String routineName, String username, ArrayList<Integer> workoutIDs) {
         try {
             String insert = "INSERT INTO Routine(username, routineName)\n";
-            insert += String.format("VALUES('%s','%s')", currentUser, routineName);
+            insert += String.format("VALUES('%s','%s')", username, routineName);
             statement.executeUpdate(insert);
+            ResultSet routineSearch = statement.executeQuery("SELECT MAX(routineID) AS newID FROM Routine");
+            routineSearch.next();
 
-            for (int i = 0; i < workouts.size(); i++) {
-                Workout wd = workouts.get(i);
-                String exerciseName = wd.exercise.name;
+            int routineID = routineSearch.getInt("newID");
 
-
-
-                insert = "INSERT INTO RoutineHasWorkout(workoutID, routineID, exerciseName, position)";
-                insert += String.format(Locale.ENGLISH, "VALUES('%d','%s', '%d')", wd.id , exerciseName, i);
+            for (int i = 0; i < workoutIDs.size(); i++) {
+                int workoutID = workoutIDs.get(i);
+                insert = "INSERT INTO RoutineHasWorkout(workoutID, routineID, position)";
+                insert += String.format(Locale.ENGLISH, "VALUES('%d','%s', '%d')", workoutID, routineID, i);
                 statement.executeUpdate(insert);
             }
 
-
             return true;
 
         } catch (Exception e) {
@@ -197,12 +196,12 @@ public class GymRatDB {
         return false;
     }
 
-    // Untested
+    // Works but date values and calories burned are hard coded.
     // TODO: calculate calories burned from given data
     public boolean saveSession(String username, int routineID, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         try {
-            String insert = "INSERT INTO Sessions(userName, routineID, startDate, endDate)\n";
-            insert += String.format(Locale.ENGLISH, "VALUES('%s', '%d', %s, %s)", username, routineID, startDateTime, endDateTime);
+            String insert = "INSERT INTO Sessions(userName, routineID, startDate, endDate, caloriesBurned)\n";
+            insert += String.format(Locale.ENGLISH, "VALUES('%s', '%d', '%s', '%s', %f)", username, routineID, "2021-12-20 01:02:03", "2021-12-20 01:20:03", 100f);
             statement.executeUpdate(insert);
             return true;
         } catch (Exception e) {
@@ -211,12 +210,11 @@ public class GymRatDB {
         return false;
     }
 
-    // Untested
-    public boolean addWorkout(Workout workoutData, Exercise exercise) {
+    public boolean addWorkout(String exerciseName, int reps, int sets, float breakTime) {
 
         try {
             String insert = "INSERT INTO Workout(exerciseName,reps,sets,breakTime)\n";
-            insert += String.format(Locale.ENGLISH, "VALUES('%s', '%d', '%d', '%f')", exercise.name, workoutData.reps, workoutData.sets, workoutData.breakTime);
+            insert += String.format(Locale.ENGLISH, "VALUES('%s', '%d', '%d', '%f')", exerciseName, reps, sets, breakTime);
             statement.executeUpdate(insert);
             return true;
 
@@ -226,7 +224,6 @@ public class GymRatDB {
         return false;
     }
 
-    // Untested
     public boolean addWeightOverTime(String username, LocalDate date, float weight) {
         try {
             ResultSet sessionResult = statement.executeQuery(String.format(Locale.ENGLISH, "Select date FROM WeightOverTime WHERE date = '%s'", date));

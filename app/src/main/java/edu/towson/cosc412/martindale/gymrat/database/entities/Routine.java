@@ -7,5 +7,4 @@ public class Routine {
     public String username;
     public String name;
     public int id;
-
 }
