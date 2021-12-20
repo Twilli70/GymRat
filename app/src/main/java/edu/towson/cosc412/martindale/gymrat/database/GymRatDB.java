@@ -20,7 +20,7 @@ public class GymRatDB {
     private static GymRatDB instance;
     private Connection connection;
     private Statement statement;
-    private String currentUser = "";
+    private String currentUser = "benny";
 
     private GymRatDB() {
         Thread thread = new Thread(() -> {
@@ -173,20 +173,21 @@ public class GymRatDB {
     // Untested
     public boolean addNewRoutine(String routineName, ArrayList<Workout> workouts) {
         try {
-            String insert = "INSERT INTO Routine(routineName, userName)\n";
-            insert += String.format("VALUES('%s','%s')", routineName, currentUser);
+            String insert = "INSERT INTO Routine(username, routineName)\n";
+            insert += String.format("VALUES('%s','%s')", currentUser, routineName);
             statement.executeUpdate(insert);
 
             for (int i = 0; i < workouts.size(); i++) {
                 Workout wd = workouts.get(i);
                 String exerciseName = wd.exercise.name;
-                int sets = wd.sets;
-                int reps = wd.reps;
 
-                insert = "INSERT INTO RoutineHasWorkout(exerciseName, sets, reps, position)";
-                insert += String.format(Locale.ENGLISH, "VALUES('%s', '%s', '%s', '%d'", exerciseName, sets, reps, i);
+
+
+                insert = "INSERT INTO RoutineHasWorkout(workoutID, routineID, exerciseName, position)";
+                insert += String.format(Locale.ENGLISH, "VALUES('%d','%s', '%d')", wd.id , exerciseName, i);
                 statement.executeUpdate(insert);
             }
+
 
             return true;
 

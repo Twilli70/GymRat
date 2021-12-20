@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
             Looper.prepare();
             ArrayList<Workout> workoutArrayList1 = new ArrayList<Workout>();
             Workout w1 = new Workout();
+            w1.id = 1;
             w1.reps = 12;
             w1.sets = 3;
             Exercise ex1 = new Exercise();
@@ -47,26 +48,10 @@ public class MainActivity extends AppCompatActivity {
             w1.exercise = ex1;
             w1.breakTime = 30;
             workoutArrayList1.add(w1);
-           db.addNewRoutine("DayTwo", workoutArrayList1 );
+           db.addNewRoutine("Day", workoutArrayList1 );
         }).start();
 
-        new Thread(() -> {
-            Looper.prepare();
-            ArrayList<Workout> workoutArrayList1 = new ArrayList<Workout>();
-            Workout w1 = new Workout();
-            w1.reps = 12;
-            w1.sets = 3;
-            Exercise ex1 = new Exercise();
-            ex1.name = "Squats";
-            ex1.caloriesPerMinute = 5;
-            ex1.equipmentID = 2;
-            ex1.estimateTime = 20;
-            ex1.targetBodyPart = "Legs";
-            w1.exercise = ex1;
-            w1.breakTime = 30;
-            workoutArrayList1.add(w1);
-            db.addNewRoutine("DayTwo", workoutArrayList1 );
-        }).start();
+
 
         //reference layout
         loginBtn= findViewById(R.id.loginBtn);
