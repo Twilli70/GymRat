@@ -38,21 +38,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         GymRatDB db = GymRatDB.getInstance();
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                UserData user = new UserData();
-                user.username = "pepper";
-                user.password = "w3erf";
-                user.firstName = "Pepper";
-                user.lastName = "Potts";
-                user.height = 5;
-                user.birthdayDate = new Date(0);
-                db.addNewUser(user);
-            }
-        });
-        thread.start();
         /*
 
         //reference layout

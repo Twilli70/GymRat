@@ -1,39 +1,25 @@
 package edu.towson.cosc412.martindale.gymrat.database;
 
-import android.os.AsyncTask;
-import android.os.StrictMode;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class GymRatDB {
-    public static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
-    public static final int port = 3306;
-    public static final String dbName = "gymratdb";
-    public static final String dbUser = "admin";
-    public static final String dbPassword = "VobGjT47CiM2A";
-
-    public static GymRatDB instance;
-
-    Connection connection;
-    Statement statement;
+    private static GymRatDB instance;
+    private Connection connection;
+    private Statement statement;
+    private String currentUser = "";
 
     private GymRatDB() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println("Attempting to connect to database...");
-                    connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
-                    statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                    System.out.println("Successfully connected to database!");
-                } catch (Exception e) {
-                    System.out.println("Failed to connect to database");
-                    e.printStackTrace();
-                }
+        Thread thread = new Thread(() -> {
+            try {
+                System.out.println("Attempting to connect to database...");
+                connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
+                statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                System.out.println("Successfully connected to database!");
+            } catch (Exception e) {
+                System.out.println("Failed to connect to database");
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -45,13 +31,15 @@ public class GymRatDB {
         }
     }
 
-
-
     public static GymRatDB getInstance() {
         if (instance == null) {
             instance = new GymRatDB();
         }
         return instance;
+    }
+
+    public void setCurrentUser(String currentUser){
+        this.currentUser = currentUser;
     }
 
     public int addNewUser(UserData userData) {
