@@ -1,13 +1,38 @@
 package edu.towson.cosc412.martindale.gymrat.database;
 
+import android.os.AsyncTask;
+import android.os.StrictMode;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class GymRatDB {
+    class Task extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+                System.out.println("Connecting To Database...");
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
+                System.out.println("Database Connection success");
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
     public static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
     public static final int port = 3306;
-    public static final String dbName = "gymratDB";
+    public static final String dbName = "gymratdb";
     public static final String dbUser = "admin";
     public static final String dbPassword = "VobGjT47CiM2A";
 
@@ -18,11 +43,18 @@ public class GymRatDB {
 
     private GymRatDB() {
         try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
+            StrictMode.setThreadPolicy(policy);
+            /*
             String url = String.format(Locale.ENGLISH, "jdbc:mysql://%s:%d/%s", host, port, dbName);
-            connection = DriverManager.getConnection(url, dbUser, dbPassword);
-            System.out.println("Connected");
+
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            System.out.println("ABC");
+            System.out.println(statement);
+             */
         } catch (Exception e) {
+            System.out.println("Failed to connect to database");
             e.printStackTrace();
         }
     }
@@ -34,8 +66,32 @@ public class GymRatDB {
         return instance;
     }
 
-    public void addNewUser(UserData userData) {
+    public void Test(){
+        new Task().doInBackground();
+    }
 
+    public boolean hasUser(UserData userData){
+        String sql = "SELECT * FROM User WHERE username = " + userData.username;
+        try{
+            ResultSet result = executeQuery(sql);
+            System.out.println("Pizza");
+            System.out.println(result);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public void addNewUser(UserData userData) {
+        String sql = "SELECT * FROM User WHERE username = " + userData.username;
+        try{
+            ResultSet result = executeQuery(sql);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public int addNewRoutine(RoutineData routineData) {
