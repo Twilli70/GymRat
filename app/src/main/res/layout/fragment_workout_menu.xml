@@ -10,12 +10,12 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Here are your top 4 workouts [insertname]  "
+        android:layout_marginTop="50dp"
+        android:text="Welcome to the Workout Menu"
         android:textAlignment="center"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/workoutSummaryBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,98 +23,46 @@
         android:id="@+id/nextRecommendedBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
         android:backgroundTint="#AAA1A1"
         android:text="to Next Recommended Workout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.82" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="workout1"
-        android:inputType="textPersonName"
-        android:text="workout1"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.364"
-        tools:layout_editor_absoluteX="55dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="108dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="workout2"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName3"
-        tools:layout_editor_absoluteX="55dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="workout4"
-        app:layout_constraintBottom_toTopOf="@+id/nextRecommendedBtn"
-        tools:layout_editor_absoluteX="55dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="108dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="workout3"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName4"
-        tools:layout_editor_absoluteX="55dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/workoutSummaryBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
+        android:backgroundTint="#AAA1A1"
         android:text="To Workout Summary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/workoutHistoryBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextRecommendedBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Button
         android:id="@+id/workoutHistoryBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Workout History"
+        android:backgroundTint="#AAA1A1"
+        android:text="To Session History"
+        app:layout_constraintBottom_toTopOf="@+id/routineCreationBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/workoutSummaryBtn" />
 
     <Button
         android:id="@+id/routineCreationBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="69dp"
-        android:text="To Routine Creation"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="#AAA1A1"
+        android:text="To Routines"
+        app:layout_constraintBottom_toTopOf="@+id/nextRecommendedBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workoutProgressBtn" />
-
-    <Button
-        android:id="@+id/workoutProgressBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="157dp"
-        android:text="To Workout Progress"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workoutHistoryBtn" />
 

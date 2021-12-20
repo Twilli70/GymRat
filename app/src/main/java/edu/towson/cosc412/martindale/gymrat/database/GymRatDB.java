@@ -3,6 +3,8 @@ package edu.towson.cosc412.martindale.gymrat.database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class GymRatDB {
     private static GymRatDB instance;
@@ -47,6 +49,7 @@ public class GymRatDB {
             ResultSet userResult = executeQuery(String.format("Select * FROM User WHERE username = '%s'", userData.username));
             if (!userResult.next()) {
                 String insert = "INSERT INTO User(username, password, firstName, lastName, birthdate,height)\n";
+
 
                 insert += String.format(Locale.ENGLISH, "VALUES('%s', '%s','%s','%s', '%s','%f')", userData.username, userData.password, userData.firstName, userData.lastName, userData.birthdayDate, userData.height);
                 executeUpdate(insert);
@@ -158,6 +161,7 @@ public class GymRatDB {
         }
         return 1;
     }
+
 
     public String selectMax(String table, String attribute) {
         try {
