@@ -17,8 +17,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import edu.towson.cosc412.martindale.gymrat.R;
 import edu.towson.cosc412.martindale.gymrat.database.GymRatDB;
+import edu.towson.cosc412.martindale.gymrat.database.UserData;
 
 public class EquipmentGuide extends AppCompatActivity {
     Spinner spinnerDrop;
@@ -42,9 +46,10 @@ public class EquipmentGuide extends AppCompatActivity {
                     firstImage.setImageResource(R.drawable.chest_stick_figure);
                 } else if (str[1].equals(spinnerDrop.getItemAtPosition(position).toString())) {
                     firstImage.setImageResource(R.drawable.legs1);
-                    System.out.println("HELLO");
-                    GymRatDB db = GymRatDB.getInstance();
-                    db.Test();
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        GymRatDB db = GymRatDB.getInstance();
+                        System.out.println(db.hasUser(new UserData("benny")));
+                    });
                 }
             }
 

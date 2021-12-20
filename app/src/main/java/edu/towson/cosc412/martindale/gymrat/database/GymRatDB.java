@@ -6,6 +6,8 @@ import android.os.StrictMode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class GymRatDB {
     class Task extends AsyncTask<Void, Void, Void>{
@@ -15,8 +17,6 @@ public class GymRatDB {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
                 System.out.println("Connecting To Database...");
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
                 DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
                 System.out.println("Database Connection success");
             } catch (SQLException | ClassNotFoundException throwables) {
@@ -30,33 +30,42 @@ public class GymRatDB {
         }
     }
 
-    public static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
-    public static final int port = 3306;
-    public static final String dbName = "gymratdb";
-    public static final String dbUser = "admin";
-    public static final String dbPassword = "VobGjT47CiM2A";
+    private static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
+    private static final int port = 3306;
+    private static final String dbName = "gymratdb";
+    private static final String dbUser = "admin";
+    private static final String dbPassword = "VobGjT47CiM2A";
+    private final ApplicationExecutors executors = new ApplicationExecutors();;
 
-    public static GymRatDB instance;
+    private static GymRatDB instance;
 
     Connection connection;
     Statement statement;
 
     private GymRatDB() {
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
-            StrictMode.setThreadPolicy(policy);
-            /*
-            String url = String.format(Locale.ENGLISH, "jdbc:mysql://%s:%d/%s", host, port, dbName);
+        connectToDatabase();
+    }
 
-            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            System.out.println("ABC");
-            System.out.println(statement);
-             */
-        } catch (Exception e) {
-            System.out.println("Failed to connect to database");
-            e.printStackTrace();
-        }
+    private void connectToDatabase(){
+        executors.getBackground().execute(() -> {
+            try {
+
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                String url = "jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb";
+
+                System.out.println("Attempt to connect to database.");
+                connection = DriverManager.getConnection(url, "admin", "VobGjT47CiM2A");
+                System.out.println("Successfully connected to database.");
+
+                System.out.println("Attempt to create statement");
+                statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                System.out.println("Successfully created statement");
+
+            } catch (Exception e) {
+                System.out.println("Failed to connect to database.");
+                e.printStackTrace();
+            }
+        });
     }
 
     public static GymRatDB getInstance() {
@@ -71,7 +80,7 @@ public class GymRatDB {
     }
 
     public boolean hasUser(UserData userData){
-        String sql = "SELECT * FROM User WHERE username = " + userData.username;
+        String sql = "SELECT * FROM User WHERE username = '" + userData.username + "'";
         try{
             ResultSet result = executeQuery(sql);
             System.out.println("Pizza");
@@ -80,7 +89,6 @@ public class GymRatDB {
         catch (Exception e){
             e.printStackTrace();
         }
-
         return false;
     }
 
@@ -137,10 +145,6 @@ public class GymRatDB {
         }
         return 1;
     }
-
-
-
-
 
     public String selectMax(String table, String attribute) {
         try {
