@@ -4,6 +4,5 @@ public class Workout {
     public Exercise exercise;
     public int sets;
     public int reps;
-    public double completionTime;
     public float breakTime;
 }

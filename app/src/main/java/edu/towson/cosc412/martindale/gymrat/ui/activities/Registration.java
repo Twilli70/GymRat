@@ -54,10 +54,10 @@ public class Registration extends AppCompatActivity {
                             User userData = new User();
                             userData.username = user;
                             userData.password = pass;
-                            userData.firstName = "Ezekiel";
-                            userData.lastName = "Halley";
-                            userData.setbirthday(2000, 1, 10);
-                            userData.height = 6;
+                            userData.firstName = "Ezekiel"; // Hard coded for testing purposes
+                            userData.lastName = "Halley"; // Hard coded for testing purposes
+                            userData.height = 6; // Hard coded for testing purposes
+                            userData.setbirthday(2000, 1, 10); // Hard coded for testing purposes
                             boolean insert = db.addNewUser(userData);
                             if (insert) {
                                 Toast.makeText(Registration.this, "Registration Successful", Toast.LENGTH_SHORT).show();
