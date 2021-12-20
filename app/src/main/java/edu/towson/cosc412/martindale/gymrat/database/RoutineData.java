@@ -6,6 +6,4 @@ public class RoutineData {
     public ArrayList<WorkoutData> workouts = new ArrayList<>();
     public String routineName;
     public int routineID;
-
 }
-

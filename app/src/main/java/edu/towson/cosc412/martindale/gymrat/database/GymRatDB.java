@@ -6,30 +6,10 @@ import android.os.StrictMode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class GymRatDB {
-    class Task extends AsyncTask<Void, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-                System.out.println("Connecting To Database...");
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
-                System.out.println("Database Connection success");
-            } catch (SQLException | ClassNotFoundException throwables) {
-                throwables.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
     public static final String host = "gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com";
     public static final int port = 3306;
     public static final String dbName = "gymratdb";
@@ -42,22 +22,30 @@ public class GymRatDB {
     Statement statement;
 
     private GymRatDB() {
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
-            StrictMode.setThreadPolicy(policy);
-            /*
-            String url = String.format(Locale.ENGLISH, "jdbc:mysql://%s:%d/%s", host, port, dbName);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Attempting to connect to database...");
+                    connection = DriverManager.getConnection("jdbc:mysql://gymratdb.cektgjjcjjdb.us-east-2.rds.amazonaws.com:3306/gymratdb", "admin", "VobGjT47CiM2A");
+                    statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                    System.out.println("Successfully connected to database!");
+                } catch (Exception e) {
+                    System.out.println("Failed to connect to database");
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
 
-            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            System.out.println("ABC");
-            System.out.println(statement);
-             */
-        } catch (Exception e) {
-            System.out.println("Failed to connect to database");
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
+
+
 
     public static GymRatDB getInstance() {
         if (instance == null) {
@@ -66,49 +54,42 @@ public class GymRatDB {
         return instance;
     }
 
-    public void Test(){
-        new Task().doInBackground();
-    }
-
-    public boolean hasUser(UserData userData){
-        String sql = "SELECT * FROM User WHERE username = " + userData.username;
-        try{
-            ResultSet result = executeQuery(sql);
-            System.out.println("Pizza");
-            System.out.println(result);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
     public int addNewUser(UserData userData) {
-       // String sql = String.format("SELECT username FROM User WHERE username = '%s'" , userData.username);
+        try {
+            ResultSet userResult = executeQuery(String.format("Select * FROM User WHERE username = '%s'", userData.username));
+            if (!userResult.next()) {
+                String insert = "INSERT INTO User(username, password, firstName, lastName, birthdate,height)\n";
 
-        try{
-            ResultSet userResult = executeQuery(String.format("Select routineID FROM Routine WHERE routineID = '%s'" , userData.username));
-            if(!userResult.next()) {
-                String insert = "INSERT INTO username,password, firstName,lastName,birthdate,height)\n";
-                insert += String.format("VALUES('%s', '%s','%s','%s', '%F','%f')", userData.username, userData.password, userData.firstName, userData.lastName,userData.birthdayDate, userData.height);
+                insert += String.format(Locale.ENGLISH, "VALUES('%s', '%s','%s','%s', '%s','%f')", userData.username, userData.password, userData.firstName, userData.lastName, userData.birthdayDate, userData.height);
                 executeUpdate(insert);
                 return 0;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return 1;
     }
 
     public int addNewRoutine(UserData userData, RoutineData routineData) {
-        routineData.routineID = Integer.parseInt(selectMax("Routine", "routineID")) + 1;
         try {
 
-            ResultSet routineResult = executeQuery(String.format("Select routineID FROM Routine WHERE routineID = '%d'" , routineData.routineID));
+            ResultSet routineResult = executeQuery(String.format("Select routineID FROM Routine WHERE routineID = '%d'", routineData.routineID));
             if (!routineResult.next()) {
-                String insert = "INSERT INTO routineID, routineName, userName)\n";
-                insert += String.format("VALUES('%d', '%s','%s')", routineData.routineID, routineData.routineName, userData.username);
+                String insert = "INSERT INTO Routine(routineName, userName)\n";
+                insert += String.format("VALUES('%s','%s')", routineData.routineName, userData.username);
                 executeUpdate(insert);
+
+                for (int i = 0; i < routineData.workouts.size(); i++) {
+                    WorkoutData wd = routineData.workouts.get(i);
+                    String exerciseName = wd.exerciseData.exerciseName;
+                    int sets = wd.sets;
+                    int reps = wd.reps;
+
+                    insert = "INSERT INTO RoutineHasWorkout(exerciseName, sets, reps, position)";
+                    insert += String.format("VALUES('%s', '%s', '%s', '%d'", exerciseName, sets, reps, i);
+                    executeUpdate(insert);
+                }
+
                 return 0;
             }
         } catch (Exception e) {
@@ -122,7 +103,7 @@ public class GymRatDB {
 
             if (!exerciseResult.next()) {
                 String insert = "INSERT INTO Exercise(exerciseName,equipmentID,targetBodyPart, caloriesPerMinute, estimateTime)\n";
-                insert += String.format("VALUES('%s', '%s', %f, %d)", equipmentData.equipmentID, exerciseData.exerciseName, exerciseData.targetBodyPart, exerciseData.caloriesPerMinute, exerciseData.estimateTime);
+                insert += String.format(Locale.ENGLISH, "VALUES('%d', '%s', %s, %f)", equipmentData.equipmentID, exerciseData.exerciseName, exerciseData.targetBodyPart, exerciseData.caloriesPerMinute, exerciseData.estimateTime);
                 executeUpdate(insert);
                 return 0;
             }
@@ -131,15 +112,14 @@ public class GymRatDB {
         return 1;
     }
 
-
-    public int addNewSession(UserData userData,SessionData sessionData) {
+    public int addNewSession(UserData userData, SessionData sessionData) {
 
         sessionData.sessionID = Integer.parseInt(selectMax("Sessions", "sessionID")) + 1;
         try {
             ResultSet sessionResult = executeQuery(String.format("Select sessionID FROM Sessions WHERE sessionID ='%d' ", sessionData.sessionID));
             if (!sessionResult.next()) {
-                String insert = "INSERT INTO Sessions(sessionID, userName, routineID, startDate, endDate)\n";
-                insert += String.format("VALUES('%s', '%s', %s, %t,%t)",userData.username,sessionData.sessionID, sessionData.routine, sessionData.startDateTime, sessionData.endDateTime);
+                String insert = "INSERT INTO Sessions(userName, routineID, startDate, endDate)\n";
+                insert += String.format("VALUES('%s', '%d', %s, %s)", userData.username, sessionData.routine.routineID, sessionData.startDateTime, sessionData.endDateTime);
                 executeUpdate(insert);
                 return 0;
             }
@@ -148,13 +128,12 @@ public class GymRatDB {
         return 1;
     }
 
-    public int addNewEquipment(EquipmentData equipmentData){
-        equipmentData.equipmentID = Integer.parseInt(selectMax("Equipment", "equipmentID")) + 1;
+    public int addNewEquipment(EquipmentData equipmentData) {
         try {
-            ResultSet equipmentResult = executeQuery(String.format("Select equipmentID FROM Equipment WHERE equipmentID = '%d'", equipmentData.equipmentID ));
+            ResultSet equipmentResult = executeQuery(String.format("Select equipmentID FROM Equipment WHERE equipmentID = '%d'", equipmentData.equipmentID));
             if (!equipmentResult.next()) {
-                String insert = "INSERT INTO Equipment(equipmentID, equipmentName)\n";
-                insert += String.format("VALUES('%d', '%s')", equipmentData.equipmentID,equipmentData.equipmentName);
+                String insert = "INSERT INTO Equipment(equipmentName)\n";
+                insert += String.format("VALUES('%s')", equipmentData.equipmentName);
                 executeUpdate(insert);
                 return 0;
             }
@@ -163,13 +142,13 @@ public class GymRatDB {
         return 1;
     }
 
-    public int addWorkout(WorkoutData workoutData, ExerciseData excerciseData){
+    public int addWorkout(WorkoutData workoutData, ExerciseData excerciseData) {
 
         try {
             ResultSet workoutResult = executeQuery(String.format("Select exerciseName FROM Workout WHERE exerciseName = ", excerciseData.exerciseName));
             if (!workoutResult.next()) {
                 String insert = "INSERT INTO Workout(exerciseName,reps,sets,breakTime)\n";
-                insert += String.format("VALUES('%s', '%d', '%d', '%T')", excerciseData.exerciseName, workoutData.reps, workoutData.sets, workoutData.breakTime);
+                insert += String.format("VALUES('%s', '%d', '%d', '%f')", excerciseData.exerciseName, workoutData.reps, workoutData.sets, workoutData.breakTime);
                 executeUpdate(insert);
                 return 0;
             }
@@ -178,13 +157,12 @@ public class GymRatDB {
         return 1;
     }
 
-    public int addWeightOverTime(WeightOverTime weightOverTime, UserData userData){
-
+    public int addWeightOverTime(WeightOverTime weightOverTime, UserData userData) {
         try {
-            ResultSet sessionResult = executeQuery(String.format("Select date FROM WeightOverTime WHERE date = ", weightOverTime.date ));
+            ResultSet sessionResult = executeQuery(String.format("Select date FROM WeightOverTime WHERE date = ", weightOverTime.date));
             if (!sessionResult.next()) {
                 String insert = "INSERT INTO WeightOvertTime(date,username,weight)\n";
-                insert += String.format("VALUES('%F', '%s', '%f')", weightOverTime.date, userData.username, weightOverTime.weight);
+                insert += String.format("VALUES('%s', '%s', '%f')", weightOverTime.date, userData.username, weightOverTime.weight);
                 executeUpdate(insert);
                 return 0;
             }
@@ -192,11 +170,6 @@ public class GymRatDB {
         }
         return 1;
     }
-
-
-
-
-
 
     public String selectMax(String table, String attribute) {
         try {

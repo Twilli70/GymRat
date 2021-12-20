@@ -44,7 +44,6 @@ public class EquipmentGuide extends AppCompatActivity {
                     firstImage.setImageResource(R.drawable.legs1);
                     System.out.println("HELLO");
                     GymRatDB db = GymRatDB.getInstance();
-                    db.Test();
                 }
             }
 
