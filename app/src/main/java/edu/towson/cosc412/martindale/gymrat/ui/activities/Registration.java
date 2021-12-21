@@ -20,7 +20,6 @@ import edu.towson.cosc412.martindale.gymrat.old.DBHelper;
 
 
 public class Registration extends AppCompatActivity {
-    DBHelper DB;
     EditText newUsr, newPwd, newPwd1;
     Button regDone;
 

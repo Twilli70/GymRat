@@ -39,7 +39,7 @@ public class Session {
         return endDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    public float getDuration(){
+    public long getDuration(){
         if (startDateTime != null && endDateTime != null){
             Duration duration = Duration.between(startDateTime, endDateTime);
             return duration.getSeconds();

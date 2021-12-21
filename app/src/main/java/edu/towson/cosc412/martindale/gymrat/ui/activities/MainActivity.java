@@ -37,18 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         GymRatDB db = GymRatDB.getInstance();
 
-        new Thread(() -> {
-            Looper.prepare();
-            ArrayList<Session> userSessions = db.getAllSessions("benny");
-
-            for (Session s : userSessions) {
-                System.out.println(s.id);
-            }
-
-
-        }).start();
-
-
         //reference layout
         loginBtn = findViewById(R.id.loginBtn);
         regBtn = findViewById(R.id.regBtn);
