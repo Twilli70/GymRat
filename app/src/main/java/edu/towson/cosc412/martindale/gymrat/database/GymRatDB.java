@@ -20,7 +20,7 @@ public class GymRatDB {
     private static GymRatDB instance;
     private Connection connection;
     private Statement statement;
-    private String currentUser = "";
+    public String currentUser = "";
 
     private GymRatDB() {
         Thread thread = new Thread(() -> {
@@ -243,6 +243,36 @@ public class GymRatDB {
             e.printStackTrace();
         }
         return false;
+    }
+    public float getCurrentUserWeight(String username){
+        try{
+            String sql = String.format("SELECT weight, MAX(date) AS maxWeight FROM WeightOverTime WHERE username = '%s'",username);
+            ResultSet result = statement.executeQuery(sql);
+            return result.getFloat("weight");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    public User getUser(String username){
+        try{
+            ResultSet result = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM User WHERE username = '%s'",username));
+            if (result.next()){
+                User user = new User();
+                user.username = username;
+                user.password = result.getString("password");
+                user.firstName = result.getString("firstName");
+                user.lastName = result.getString("lastName");
+                user.height =  result.getFloat("height");
+                //user.weightOverTime.weight = result.getFloat("weight");
+                return user;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
