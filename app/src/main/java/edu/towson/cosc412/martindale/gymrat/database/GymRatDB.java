@@ -20,7 +20,7 @@ public class GymRatDB {
     private static GymRatDB instance;
     private Connection connection;
     private Statement statement;
-    private String currentUser = "";
+    public String currentUser = "";
 
     private GymRatDB() {
         Thread thread = new Thread(() -> {
