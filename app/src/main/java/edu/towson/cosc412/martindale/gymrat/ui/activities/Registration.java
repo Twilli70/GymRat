@@ -25,14 +25,12 @@ import edu.towson.cosc412.martindale.gymrat.old.DBHelper;
 
 
 public class Registration extends AppCompatActivity {
-    DBHelper DB;
     EditText newUsr, newPwd, newPwd1, newHeightInches, newHeightFeet, newName;
     CalendarView newbirthdayCalendar;
     Button regDone, enterBirthdayButton, saveBirthdayButton;
     LinearLayout heightLayout;
     Calendar calendar;
     int curDate, Year, Month;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
