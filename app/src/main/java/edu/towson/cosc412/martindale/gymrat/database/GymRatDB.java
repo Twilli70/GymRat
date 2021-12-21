@@ -22,7 +22,6 @@ public class GymRatDB {
     private static GymRatDB instance;
     private Connection connection;
     private Statement statement;
-    public String currentUser = "benny";
     public String currentUser = "";
 
 
@@ -67,23 +66,6 @@ public class GymRatDB {
             e.printStackTrace();
         }
         return false;
-    }
-
-    public User getUser(String username) {
-        try {
-            ResultSet result = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM User WHERE = '%s'", username));
-            if (result.next()) {
-                User user = new User();
-                user.username = username;
-                user.password = result.getString("password");
-                user.firstName = result.getString("firstName");
-                user.lastName = result.getString("lastName");
-                return user;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public boolean login(String username, String password) {
