@@ -19,7 +19,7 @@ public class EquipmentGuideChest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipment_guide_chest);
-        final String[] str = {"ChestOne", "LegOne"};
+        final String[] str = {"Chest Example 1", "Chest Example 2", "Chest Example 3", "Chest Example 4"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(EquipmentGuideChest.this, android.R.layout.simple_dropdown_item_1line, str);
 
         spinnerDrop = findViewById(R.id.spinnerDropChest);
@@ -31,7 +31,11 @@ public class EquipmentGuideChest extends AppCompatActivity {
                 if (str[0].equals(spinnerDrop.getItemAtPosition(position).toString())) {
                     firstImage.setImageResource(R.drawable.chest_stick_figure);
                 } else if (str[1].equals(spinnerDrop.getItemAtPosition(position).toString())) {
-                    firstImage.setImageResource(R.drawable.legs1);
+                    firstImage.setImageResource(R.drawable.chest1);
+                }else if (str[2].equals(spinnerDrop.getItemAtPosition(position).toString())) {
+                    firstImage.setImageResource(R.drawable.chest2);
+                }else if (str[3].equals(spinnerDrop.getItemAtPosition(position).toString())) {
+                    firstImage.setImageResource(R.drawable.chest3);
                 }
             }
 

@@ -35,7 +35,7 @@ public class MainMenuFragment extends Fragment {
         userProfileButton = view.findViewById(R.id.userProfileBtn);
         workoutDirectoryButton = view.findViewById(R.id.workoutDirectoryBtn);
         workoutMenuButton = view.findViewById(R.id.workoutMenuBtn);
-        textView2.setText("Welcome to GYMRAT" + db.currentUser);
+        textView2.setText("Welcome to GYMRAT " + db.currentUser);
         return view;
 
     }

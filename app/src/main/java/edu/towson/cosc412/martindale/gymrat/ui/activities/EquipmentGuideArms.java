@@ -19,7 +19,7 @@ public class EquipmentGuideArms extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipment_guide_arms);
-        final String[] str = {"ChestOne", "LegOne"};
+        final String[] str = {"Arms Example 1", "Arms Example 2", "Arms Example 3", "Arms Example 4"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(EquipmentGuideArms.this, android.R.layout.simple_dropdown_item_1line, str);
 
         spinnerDrop = findViewById(R.id.spinnerDropArms);
@@ -29,9 +29,13 @@ public class EquipmentGuideArms extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (str[0].equals(spinnerDrop.getItemAtPosition(position).toString())) {
-                    firstImage.setImageResource(R.drawable.chest_stick_figure);
+                    firstImage.setImageResource(R.drawable.arms1);
                 } else if (str[1].equals(spinnerDrop.getItemAtPosition(position).toString())) {
-                    firstImage.setImageResource(R.drawable.legs1);
+                    firstImage.setImageResource(R.drawable.arms2);
+                }else if (str[2].equals(spinnerDrop.getItemAtPosition(position).toString())) {
+                    firstImage.setImageResource(R.drawable.arms3);
+                }else if (str[3].equals(spinnerDrop.getItemAtPosition(position).toString())) {
+                    firstImage.setImageResource(R.drawable.arms4);
                 }
             }
 

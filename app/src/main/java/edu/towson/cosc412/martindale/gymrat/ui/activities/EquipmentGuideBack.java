@@ -19,7 +19,7 @@ public class EquipmentGuideBack extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipment_guide_back);
-        final String[] str = {"ChestOne", "LegOne"};
+        final String[] str = {"Back Example 1", "Back Example 2", "Back Example 3", "Back Example 4"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(EquipmentGuideBack.this, android.R.layout.simple_dropdown_item_1line, str);
 
         spinnerDrop = findViewById(R.id.spinnerDropBack);
@@ -29,9 +29,11 @@ public class EquipmentGuideBack extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (str[0].equals(spinnerDrop.getItemAtPosition(position).toString())) {
-                    firstImage.setImageResource(R.drawable.chest_stick_figure);
+                    firstImage.setImageResource(R.drawable.back1);
                 } else if (str[1].equals(spinnerDrop.getItemAtPosition(position).toString())) {
-                    firstImage.setImageResource(R.drawable.legs1);
+                    firstImage.setImageResource(R.drawable.back2);
+                }else if (str[2].equals(spinnerDrop.getItemAtPosition(position).toString())) {
+                    firstImage.setImageResource(R.drawable.back3);
                 }
             }
 
