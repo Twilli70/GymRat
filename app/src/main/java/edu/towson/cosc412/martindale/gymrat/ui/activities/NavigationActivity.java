@@ -1,5 +1,6 @@
 package edu.towson.cosc412.martindale.gymrat.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -7,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static androidx.navigation.Navigation.findNavController;
 
+import edu.towson.cosc412.martindale.gymrat.database.entities.Routine;
 import edu.towson.cosc412.martindale.gymrat.ui.NavController;
 import edu.towson.cosc412.martindale.gymrat.R;
+import edu.towson.cosc412.martindale.gymrat.ui.fragments.Timer;
 
 
 public class NavigationActivity extends AppCompatActivity implements NavController {
@@ -62,6 +65,13 @@ public class NavigationActivity extends AppCompatActivity implements NavControll
     @Override
     public void launchRoutineListFromCreation(View v) {
         findNavController(v).navigate(R.id.action_routineCreationFragment_to_routineListFragment);
+    }
+
+    @Override
+    public void launchTimer(Routine routine) {
+        Intent intent = new Intent(getApplicationContext(), Timer.class);
+        intent.putExtra("routineID", routine.id);
+        startActivity(intent);
     }
 
     @Override
