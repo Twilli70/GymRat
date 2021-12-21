@@ -18,13 +18,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="Start Time:" />
+                android:text="Start Time:"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/startTimeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DATE TIME" />
+                android:layout_weight="1"
+                android:text="DATE TIME"
+                android:textSize="20sp" />
         </TableRow>
 
         <TableRow
@@ -36,13 +39,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="Duration:" />
+                android:text="Duration:"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/durationLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TIME" />
+                android:layout_weight="1"
+                android:text="TIME"
+                android:textSize="20sp" />
         </TableRow>
 
         <TableRow
@@ -54,13 +60,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="Exercises:" />
+                android:text="Exercises:"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/exerciseLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A, B, C..." />
+                android:layout_weight="1"
+                android:text="A, B, C..."
+                android:textSize="20sp" />
         </TableRow>
 
         <TableRow
@@ -72,13 +81,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="Calories Burned:" />
+                android:text="Calories Burned:"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/caloriesBurnedLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NUMBER" />
+                android:layout_weight="1"
+                android:text="NUMBER"
+                android:textSize="20sp" />
         </TableRow>
     </TableLayout>
 
