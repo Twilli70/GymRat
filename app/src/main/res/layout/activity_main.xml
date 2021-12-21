@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DD8989"
-    android:backgroundTint="#302929"
+    android:backgroundTint="@color/w2"
     tools:context=".ui.activities.MainActivity">
 
     <View
@@ -36,20 +36,18 @@
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#AAA1A1"
-        android:backgroundTint="#66ED0C0C"
+        android:backgroundTint="@color/w5"
         android:text="@string/log_in"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintHorizontal_bias="0.827"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPwd"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editPwd" />
 
     <EditText
         android:id="@+id/editUsr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="305dp"
+        android:layout_height="39dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/username"
@@ -66,15 +64,16 @@
 
     <EditText
         android:id="@+id/editPwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="303dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editUsr"
         tools:ignore="LabelFor" />
@@ -112,8 +111,9 @@
         android:id="@+id/regBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#3EF60E0E"
+        android:backgroundTint="@color/w5"
         android:text="Register"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toStartOf="@+id/loginBtn"
         app:layout_constraintHorizontal_bias="0.372"
         app:layout_constraintStart_toStartOf="@+id/view"
