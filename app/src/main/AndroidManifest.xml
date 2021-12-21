@@ -17,7 +17,7 @@
         android:theme="@style/Theme.GymRat" >
         <activity android:name=".ui.fragments.Timer" />
         <activity
-            android:name=".ui.activities.EquipmentGuide"
+            android:name=".ui.activities.EquipmentGuideChest"
             android:exported="false"
             android:label="@string/title_activity_equipment_guide"
             android:theme="@style/Theme.GymRat.NoActionBar" />
@@ -34,6 +34,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.NavigationActivity" />
+        <activity android:name=".ui.activities.EquipmentGuideLegs" />
+        <activity android:name=".ui.activities.EquipmentGuideArms" />
+        <activity android:name=".ui.activities.EquipmentGuideBack" />
+        <activity android:name=".ui.activities.EquipmentGuideShoulders" />
 
         <meta-data
             android:name="preloaded_fonts"

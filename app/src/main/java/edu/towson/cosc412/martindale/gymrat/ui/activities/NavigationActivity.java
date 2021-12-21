@@ -68,9 +68,40 @@ public class NavigationActivity extends AppCompatActivity implements NavControll
     }
 
     @Override
+
+    public void launchEquipmentGuideBack() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideBack.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchEquipmentGuideChest() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideChest.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchEquipmentGuideArms() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideArms.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchEquipmentGuideLegs() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideLegs.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchEquipmentGuideShoulders() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideShoulders.class);
+        startActivity(intent);
+    }
+  
     public void launchTimer(Routine routine) {
         Intent intent = new Intent(getApplicationContext(), Timer.class);
         intent.putExtra("routineID", routine.id);
+      
         startActivity(intent);
     }
 
