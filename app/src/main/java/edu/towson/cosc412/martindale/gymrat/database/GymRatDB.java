@@ -65,6 +65,24 @@ public class GymRatDB {
         return false;
     }
 
+    public User getUser(String username){
+        try{
+            ResultSet result = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM User WHERE = '%s'", username));
+            if (result.next()){
+                User user = new User();
+                user.username = username;
+                user.password = result.getString("password");
+                user.firstName = result.getString("firstName");
+                user.lastName = result.getString("lastName");
+                return user;
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean login(String username, String password) {
         try {
             ResultSet result = statement.executeQuery(String.format("Select username, password FROM User WHERE username = '%s'", username));
@@ -81,8 +99,7 @@ public class GymRatDB {
         }
         return false;
     }
-
-
+    
     public boolean addNewUser(User user) {
         try {
             ResultSet userResult = statement.executeQuery(String.format("Select * FROM User WHERE username = '%s'", user.username));

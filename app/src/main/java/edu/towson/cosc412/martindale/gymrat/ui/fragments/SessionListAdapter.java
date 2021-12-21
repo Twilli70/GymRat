@@ -30,7 +30,6 @@ public class SessionListAdapter extends ArrayAdapter<Session> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
-        System.out.println("Hello");
         Session session = getItem(position);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);

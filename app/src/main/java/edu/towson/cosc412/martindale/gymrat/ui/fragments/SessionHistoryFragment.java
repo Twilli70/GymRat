@@ -29,8 +29,6 @@ public class SessionHistoryFragment extends Fragment {
             ArrayList<Session> sessions = db.getAllSessions(db.currentUser);
             getActivity().runOnUiThread(() -> {
                 SessionListAdapter adapter = new SessionListAdapter(getActivity(), R.layout.session_item, sessions);
-                System.out.println(adapter);
-                System.out.println(listView);
                 listView.setAdapter(adapter);
             });
         }).start();
