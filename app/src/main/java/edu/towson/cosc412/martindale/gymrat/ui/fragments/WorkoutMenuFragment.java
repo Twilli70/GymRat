@@ -26,7 +26,6 @@ public class WorkoutMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_workout_menu, container, false);
 
-
         sessionHistoryButton = view.findViewById(R.id.workoutHistoryBtn);
         routineListButton = view.findViewById(R.id.routineCreationBtn);
         nextRecommendedButton = view.findViewById(R.id.nextRecommendedBtn);
@@ -34,12 +33,6 @@ public class WorkoutMenuFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        workoutSummaryButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
-            public final void onClick(View v) {
-                navController.launchWorkoutSummary(v);
-            }
-        });
         sessionHistoryButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
             public final void onClick(View v) {
                 navController.launchSessionHistory(v);
