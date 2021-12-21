@@ -1,13 +1,60 @@
 package edu.towson.cosc412.martindale.gymrat.ui.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import edu.towson.cosc412.martindale.gymrat.R;
+import edu.towson.cosc412.martindale.gymrat.database.GymRatDB;
 
 public class Timer extends AppCompatActivity {
+
+    class TimerRunnable implements Runnable {
+
+        Handler handler;
+        public long startTime = SystemClock.uptimeMillis();
+        long timeWhenPaused = 0;
+        boolean isPaused = true;
+
+        public TimerRunnable(Handler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        public void run() {
+            if (!isPaused) {
+                long time = SystemClock.uptimeMillis() - startTime;
+                long seconds = time / 1000;
+                long minutes = seconds / 60;
+                long hour = minutes / 60;
+                timer.setText(String.format(Locale.ENGLISH, "%02d:%02d:%02d", hour, minutes, seconds % 60));
+            }
+            handler.postDelayed(this, 0);
+        }
+
+        public void setStartTime(long startTime) {
+            this.startTime = startTime;
+        }
+
+        public void unpause() {
+            isPaused = false;
+        }
+
+        public void pause() {
+            isPaused = true;
+            timeWhenPaused = SystemClock.uptimeMillis();
+        }
+    }
 
     private Button startRoutineButton, endRoutineButton, pauseRoutineButton;
     private TextView timer;
@@ -26,22 +73,25 @@ public class Timer extends AppCompatActivity {
         //initialize layout
         pauseRoutineButton.setVisibility(View.INVISIBLE);
 
+        Handler handler = new Handler();
+
+        TimerRunnable runnable = new TimerRunnable(handler);
+        handler.postDelayed(runnable, 0);
+
         startRoutineButton.setOnClickListener(it -> {
             startRoutineButton.setVisibility(View.INVISIBLE);
-            pauseRoutineButton.setVisibility(View.VISIBLE);
-            timer.setText("1");
-            //need to implement actual timer
+            runnable.unpause();
         });
 
         pauseRoutineButton.setOnClickListener(it -> {
-            startRoutineButton.setVisibility(View.VISIBLE);
-            pauseRoutineButton.setVisibility(View.INVISIBLE);
-            timer.setText("paused");
-            //need to implement timer being paused
         });
 
         endRoutineButton.setOnClickListener(it -> {
-            //implement where this screen should take you
+            GymRatDB db = GymRatDB.getInstance();
+            int routineID = getIntent().getIntExtra("routineID", -1);
+            LocalDateTime startTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(runnable.startTime), TimeZone.getDefault().toZoneId());
+
+            db.saveSession(db.currentUser, routineID, startTime, LocalDateTime.now());
         });
     }
 }

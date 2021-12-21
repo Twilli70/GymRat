@@ -24,6 +24,8 @@ public class GymRatDB {
     private Statement statement;
     public String currentUser = "benny";
 
+    public Routine currentRoutine;
+
     private GymRatDB() {
         Thread thread = new Thread(() -> {
             try {

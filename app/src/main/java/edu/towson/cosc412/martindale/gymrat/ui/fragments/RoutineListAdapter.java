@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import edu.towson.cosc412.martindale.gymrat.R;
+import edu.towson.cosc412.martindale.gymrat.database.GymRatDB;
 import edu.towson.cosc412.martindale.gymrat.database.entities.Routine;
 import edu.towson.cosc412.martindale.gymrat.ui.NavController;
 import edu.towson.cosc412.martindale.gymrat.ui.activities.Registration;
@@ -39,10 +40,9 @@ public class RoutineListAdapter extends ArrayAdapter<Routine> {
         routineNameLabel.setText(routine.name);
 
         startButton.setOnClickListener(it -> {
-            // Open timer page
-            navController.launchTimer();
-            // update timer routine
-            System.out.println("HELLOW WORLD");
+            GymRatDB db = GymRatDB.getInstance();
+
+            navController.launchTimer(routine);
         });
 
         return convertView;

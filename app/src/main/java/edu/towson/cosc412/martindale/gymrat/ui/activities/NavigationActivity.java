@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static androidx.navigation.Navigation.findNavController;
 
+import edu.towson.cosc412.martindale.gymrat.database.entities.Routine;
 import edu.towson.cosc412.martindale.gymrat.ui.NavController;
 import edu.towson.cosc412.martindale.gymrat.R;
+import edu.towson.cosc412.martindale.gymrat.ui.fragments.Timer;
 
 
 public class NavigationActivity extends AppCompatActivity implements NavController {
@@ -66,8 +68,9 @@ public class NavigationActivity extends AppCompatActivity implements NavControll
     }
 
     @Override
-    public void launchTimer() {
-        Intent intent = new Intent(getApplicationContext(), Registration.class);
+    public void launchTimer(Routine routine) {
+        Intent intent = new Intent(getApplicationContext(), Timer.class);
+        intent.putExtra("routineID", routine.id);
         startActivity(intent);
     }
 
