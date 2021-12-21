@@ -41,15 +41,6 @@ public class RoutineListFragment extends Fragment {
         return view;
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        rountineCreationButton.setOnClickListener((View.OnClickListener) new View.OnClickListener() {
-            public final void onClick(View v) {
-                navController.launchRoutineCreation(v);
-            }
-        });
-    }
-
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof NavController) {

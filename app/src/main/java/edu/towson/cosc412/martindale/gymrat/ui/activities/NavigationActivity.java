@@ -48,23 +48,8 @@ public class NavigationActivity extends AppCompatActivity implements NavControll
     }
 
     @Override
-    public void launchWorkoutSummary(View v) {
-        findNavController(v).navigate(R.id.action_workoutMenuFragment_to_workoutSummaryFragment);
-    }
-
-    @Override
-    public void launchRoutineCreation(View v) {
-        findNavController(v).navigate(R.id.action_routineListFragment_to_routineCreationFragment);
-    }
-
-    @Override
     public void launchRoutineListFromWorkoutMenu(View v) {
         findNavController(v).navigate(R.id.action_workoutMenuFragment_to_routineListFragment);
-    }
-
-    @Override
-    public void launchRoutineListFromCreation(View v) {
-        findNavController(v).navigate(R.id.action_routineCreationFragment_to_routineListFragment);
     }
 
     @Override
@@ -103,10 +88,5 @@ public class NavigationActivity extends AppCompatActivity implements NavControll
         intent.putExtra("routineID", routine.id);
       
         startActivity(intent);
-    }
-
-    @Override
-    public void launchMainMenu(View v) {
-         //To implement later, we want to probably add back buttons to get back to the main menu screen
     }
 }

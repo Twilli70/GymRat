@@ -39,9 +39,6 @@
             android:id="@+id/action_workoutMenuFragment_to_nextRecommendedWorkoutFragment"
             app:destination="@id/nextRecommendedWorkoutFragment" />
         <action
-            android:id="@+id/action_workoutMenuFragment_to_workoutSummaryFragment"
-            app:destination="@id/workoutSummaryFragment" />
-        <action
             android:id="@+id/action_workoutMenuFragment_to_routineListFragment"
             app:destination="@id/routineListFragment" />
         <action
@@ -54,25 +51,9 @@
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
     <fragment
-        android:id="@+id/workoutSummaryFragment"
-        android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.WorkoutSummaryFragment"
-        android:label="WorkoutSummaryFragment" />
-    <fragment
         android:id="@+id/routineListFragment"
         android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.RoutineListFragment"
-        android:label="RoutineListFragment" >
-        <action
-            android:id="@+id/action_routineListFragment_to_routineCreationFragment"
-            app:destination="@id/routineCreationFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/routineCreationFragment"
-        android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.RoutineCreationFragment"
-        android:label="RoutineCreationFragment" >
-        <action
-            android:id="@+id/action_routineCreationFragment_to_routineListFragment"
-            app:destination="@id/routineListFragment" />
-    </fragment>
+        android:label="RoutineListFragment" />
     <fragment
         android:id="@+id/sessionHistoryFragment"
         android:name="edu.towson.cosc412.martindale.gymrat.ui.fragments.SessionHistoryFragment"
