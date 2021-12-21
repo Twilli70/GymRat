@@ -1,5 +1,6 @@
 package edu.towson.cosc412.martindale.gymrat.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -62,6 +63,36 @@ public class NavigationActivity extends AppCompatActivity implements NavControll
     @Override
     public void launchRoutineListFromCreation(View v) {
         findNavController(v).navigate(R.id.action_routineCreationFragment_to_routineListFragment);
+    }
+
+    @Override
+    public void launchEquipmentGuideBack() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideBack.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchEquipmentGuideChest() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideChest.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchEquipmentGuideArms() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideArms.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchEquipmentGuideLegs() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideLegs.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchEquipmentGuideShoulders() {
+        Intent intent = new Intent(getApplicationContext(), EquipmentGuideShoulders.class);
+        startActivity(intent);
     }
 
     @Override
