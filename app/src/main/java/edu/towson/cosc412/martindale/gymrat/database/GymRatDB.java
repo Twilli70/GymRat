@@ -98,7 +98,7 @@ public class GymRatDB {
         return false;
     }
 
-    public boolean updatePassword(String username, String newPassword){
+    public boolean updatePassword(String username, String newPassword) {
         try {
             String insert = "UPDATE User\n";
             insert += String.format(Locale.ENGLISH, "SET password = %s\n", newPassword);
@@ -115,19 +115,21 @@ public class GymRatDB {
     // Untested - Have fun
     public ArrayList<Session> getAllSessions(String username) {
         try {
-            ResultSet result = statement.executeQuery(String.format("Select * FROM Sessions WHERE username = '%s' ORDER BY startDate", username));
+            Statement st = connection.createStatement();
+            ResultSet result = st.executeQuery(String.format("Select * FROM Sessions WHERE username = '%s' ORDER BY startDate", username));
             ArrayList<Session> sessions = new ArrayList<>();
             while (result.next()) {
                 Session session = new Session();
                 session.id = result.getInt("sessionID");
                 session.username = result.getString("userName");
-                session.startDateTime = LocalDateTime.parse(result.getString("startDate"));
-                session.endDateTime = LocalDateTime.parse(result.getString("endDate"));
+                session.setStartDateTime(result.getString("startDate"));
+                session.setEndDateTime(result.getString("endDate"));
                 session.caloriesBurned = result.getFloat("caloriesBurned");
 
                 int routineID = result.getInt("routineID");
-                ResultSet routineQuery = statement.executeQuery(String.format(Locale.ENGLISH,"SELECT * FROM Routine WHERE routineID = %d", routineID));
-                if (routineQuery.next()){
+                st = connection.createStatement();
+                ResultSet routineQuery = st.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM Routine WHERE routineID = %d", routineID));
+                if (routineQuery.next()) {
                     Routine routine = new Routine();
                     routine.id = routineQuery.getInt("routineID");
                     routine.username = routineQuery.getString("username");
@@ -135,30 +137,40 @@ public class GymRatDB {
                     session.routine = routine;
 
                     ArrayList<Workout> workouts = new ArrayList<>();
-                    ResultSet routineHasWorkoutQuery = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM RoutineHasWorkout WHERE routineID = %d ORDER BY position", routine.id));
-                    while (routineHasWorkoutQuery.next()){
-                        int id = routineHasWorkoutQuery.getInt("workoutID");
-                        int reps = routineHasWorkoutQuery.getInt("reps");
-                        int sets = routineHasWorkoutQuery.getInt("sets");
-                        float breakTime = routineHasWorkoutQuery.getFloat("breakTime");
-                        Exercise exercise = null;
-                        String exerciseName = routineHasWorkoutQuery.getString("exerciseName");
-                        ResultSet exerciseQuery = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM Exercise WHERE exerciseName = %s", exerciseName));
+                    st = connection.createStatement();
+                    ResultSet routineHasWorkoutQuery = st.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM RoutineHasWorkout WHERE routineID = %d ORDER BY position", routine.id));
+                    while (routineHasWorkoutQuery.next()) {
+                        int workoutID = routineHasWorkoutQuery.getInt("workoutID");
+                        st = connection.createStatement();
+                        ResultSet workoutQuery = st.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM Workout WHERE workoutID = %d", workoutID));
 
-                        if(exerciseQuery.next()){
-                            exercise = new Exercise();
-                            exercise.name = exerciseQuery.getString("exerciseName");
-                            exercise.equipmentID = exerciseQuery.getInt("equipmentID");
-                            exercise.targetBodyPart = exerciseQuery.getString("targetBodyPart");
-                            exercise.caloriesPerMinute = exerciseQuery.getFloat("caloriesPerMin");
-                            exercise.estimateTime = exerciseQuery.getFloat("estimateTime");
+                        String exerciseName;
+                        int reps;
+                        int sets;
+                        float breakTime;
+
+                        if (workoutQuery.next()) {
+                            exerciseName = workoutQuery.getString("exerciseName");
+                            reps = workoutQuery.getInt("reps");
+                            sets = workoutQuery.getInt("sets");
+                            breakTime = workoutQuery.getFloat("breakTime");
+                            Exercise exercise = null;
+                            ResultSet exerciseQuery = st.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM Exercise WHERE exerciseName = '%s'", exerciseName));
+
+                            if (exerciseQuery.next()) {
+                                exercise = new Exercise();
+                                exercise.name = exerciseQuery.getString("exerciseName");
+                                exercise.equipmentID = exerciseQuery.getInt("equipmentID");
+                                exercise.targetBodyPart = exerciseQuery.getString("targetBodyPart");
+                                exercise.caloriesPerMinute = exerciseQuery.getFloat("caloriesPerMin");
+                                exercise.estimateTime = exerciseQuery.getFloat("estimateTime");
+                            }
+                            Workout workout = new Workout(workoutID, exercise, reps, sets, breakTime);
+                            workouts.add(workout);
                         }
-                        Workout workout = new Workout(id, exercise, reps, sets, breakTime);
-                        workouts.add(workout);
                     }
                     routine.workouts = workouts;
-                }
-                else {
+                } else {
                     Log.e("ERROR", "This literally should not be possible, send help");
                 }
 
