@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.xml.transform.Result;
+
 import edu.towson.cosc412.martindale.gymrat.database.entities.Equipment;
 import edu.towson.cosc412.martindale.gymrat.database.entities.Exercise;
 import edu.towson.cosc412.martindale.gymrat.database.entities.Routine;
@@ -65,10 +67,10 @@ public class GymRatDB {
         return false;
     }
 
-    public User getUser(String username){
-        try{
+    public User getUser(String username) {
+        try {
             ResultSet result = statement.executeQuery(String.format(Locale.ENGLISH, "SELECT * FROM User WHERE = '%s'", username));
-            if (result.next()){
+            if (result.next()) {
                 User user = new User();
                 user.username = username;
                 user.password = result.getString("password");
@@ -76,8 +78,7 @@ public class GymRatDB {
                 user.lastName = result.getString("lastName");
                 return user;
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -99,7 +100,7 @@ public class GymRatDB {
         }
         return false;
     }
-    
+
     public boolean addNewUser(User user) {
         try {
             ResultSet userResult = statement.executeQuery(String.format("Select * FROM User WHERE username = '%s'", user.username));
@@ -127,6 +128,25 @@ public class GymRatDB {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public ArrayList<Routine> getRoutines(String username) {
+        try {
+            String sql = String.format("SELECT * FROM Routine WHERE username = '%s'", username);
+            ResultSet result = statement.executeQuery(sql);
+            ArrayList<Routine> routines = new ArrayList<>();
+            while (result.next()) {
+                Routine routine = new Routine();
+                routine.id = result.getInt("routineID");
+                routine.username = result.getString("username");
+                routine.name = result.getString("routineName");
+                routines.add(routine);
+            }
+            return routines;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // Untested - Have fun

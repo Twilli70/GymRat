@@ -12,14 +12,14 @@
             android:layout_height="match_parent" >
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10"
+                android:layout_marginRight="10dp"
                 android:text="Start" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/routineNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Routine Name" />
