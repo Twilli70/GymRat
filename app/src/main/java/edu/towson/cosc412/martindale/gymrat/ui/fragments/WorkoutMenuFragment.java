@@ -33,6 +33,7 @@ public class WorkoutMenuFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        nextRecommendedButton.setVisibility(View.INVISIBLE);
         sessionHistoryButton.setOnClickListener((View.OnClickListener)new View.OnClickListener() {
             public final void onClick(View v) {
                 navController.launchSessionHistory(v);
