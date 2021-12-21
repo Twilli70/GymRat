@@ -26,7 +26,7 @@ public class UserProfileFragment extends Fragment {
 
         //reference layout
         phoneNumber = view.findViewById(R.id.phone_number);
-        emailAddress = view.findViewById(R.id.email_address);
+        //emailAddress = view.findViewById(R.id.email_address);
         saveUserProfileButton = view.findViewById(R.id.saveUserProfileBtn);
 
 
