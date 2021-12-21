@@ -33,7 +33,7 @@ public class RoutineListFragment extends Fragment {
         new Thread(()->{
             ArrayList<Routine> routines = db.getRoutines(db.currentUser);
             getActivity().runOnUiThread(() -> {
-                RoutineListAdapter adapter = new RoutineListAdapter(getActivity(), R.layout.routine_item, routines);
+                RoutineListAdapter adapter = new RoutineListAdapter(navController, getActivity(), R.layout.routine_item, routines);
                 listView.setAdapter(adapter);
             });
         }).start();

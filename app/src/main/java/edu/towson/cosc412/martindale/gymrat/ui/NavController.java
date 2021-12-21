@@ -13,4 +13,5 @@ public interface NavController {
     public void launchRoutineCreation(View v);
     public void launchRoutineListFromWorkoutMenu(View v);
     public void launchRoutineListFromCreation(View v);
+    public void launchTimer();
 }

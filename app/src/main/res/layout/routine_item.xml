@@ -22,7 +22,8 @@
                 android:id="@+id/routineNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Routine Name" />
+                android:text="Routine Name"
+                android:textSize="24sp" />
         </TableRow>
 
         <TableRow
