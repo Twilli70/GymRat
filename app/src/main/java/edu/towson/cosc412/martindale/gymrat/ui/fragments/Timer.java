@@ -1,5 +1,6 @@
 package edu.towson.cosc412.martindale.gymrat.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -16,6 +17,7 @@ import java.util.TimeZone;
 
 import edu.towson.cosc412.martindale.gymrat.R;
 import edu.towson.cosc412.martindale.gymrat.database.GymRatDB;
+import edu.towson.cosc412.martindale.gymrat.ui.activities.NavigationActivity;
 
 public class Timer extends AppCompatActivity {
 
@@ -90,8 +92,9 @@ public class Timer extends AppCompatActivity {
             GymRatDB db = GymRatDB.getInstance();
             int routineID = getIntent().getIntExtra("routineID", -1);
             LocalDateTime startTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(runnable.startTime), TimeZone.getDefault().toZoneId());
-
             db.saveSession(db.currentUser, routineID, startTime, LocalDateTime.now());
+            Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+            startActivity(intent);
         });
     }
 }
