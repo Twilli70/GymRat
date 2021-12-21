@@ -41,18 +41,21 @@ public class SessionListAdapter extends ArrayAdapter<Session> {
         StringBuilder exerciseNames = new StringBuilder();
 
         int workoutCount = session.routine.workouts.size();
-        workoutCount = Math.min(3, workoutCount);
+        //workoutCount = Math.min(3, workoutCount);
+        float caloriesBurned = 0;
 
         for (int i = 0; i < workoutCount; i++){
             Workout workout = session.routine.workouts.get(i);
+            caloriesBurned += workout.exercise.caloriesPerMinute * workout.sets * workout.reps;
             exerciseNames.append(workout.exercise.name);
             if (i < workoutCount - 1)
-                exerciseNames.append("\n");
+                exerciseNames.append(", ");
         }
 
         startTimeLabel.setText(session.getStartDateTime());
-        durationLabel.setText(String.format(Locale.ENGLISH,"%d", session.getDuration()));
+        durationLabel.setText(String.format(Locale.ENGLISH,"%d", session.getDuration() / 1000));
         exerciseLabel.setText(exerciseNames);
+        caloriesBurnedLabel.setText(String.format(Locale.ENGLISH, "%f", caloriesBurned));
 
         return convertView;
     }

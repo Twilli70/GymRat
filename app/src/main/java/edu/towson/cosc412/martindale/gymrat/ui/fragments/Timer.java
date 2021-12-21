@@ -92,7 +92,10 @@ public class Timer extends AppCompatActivity {
             GymRatDB db = GymRatDB.getInstance();
             int routineID = getIntent().getIntExtra("routineID", -1);
             LocalDateTime startTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(runnable.startTime), TimeZone.getDefault().toZoneId());
-            db.saveSession(db.currentUser, routineID, startTime, LocalDateTime.now());
+            new Thread(() -> {
+                db.saveSession(db.currentUser, routineID, startTime, LocalDateTime.now());
+            }).start();
+
             Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
             startActivity(intent);
         });
