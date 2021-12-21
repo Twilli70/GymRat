@@ -26,7 +26,7 @@ public class WorkoutMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_workout_menu, container, false);
 
-        workoutSummaryButton = view.findViewById(R.id.workoutSummaryBtn);
+
         sessionHistoryButton = view.findViewById(R.id.workoutHistoryBtn);
         routineListButton = view.findViewById(R.id.routineCreationBtn);
         nextRecommendedButton = view.findViewById(R.id.nextRecommendedBtn);

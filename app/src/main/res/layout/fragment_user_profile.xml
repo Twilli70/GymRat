@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="411dp"
-        android:layout_height="209dp"
+        android:layout_width="339dp"
+        android:layout_height="162dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,47 +27,93 @@
 
 
     <EditText
-        android:id="@+id/phone_number"
+        android:id="@+id/birthday"
         android:layout_width="300dp"
         android:layout_height="45dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="@string/bday"
         android:inputType="phone"
         android:minHeight="48dp"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/height"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.718" />
+        app:layout_constraintTop_toBottomOf="@+id/lastName" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <EditText
+        android:id="@+id/lastName"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:hint="Last Name"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstName" />
+
+    <EditText
+        android:id="@+id/firstName"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="36dp"
+        android:ems="10"
+        android:hint="First Name"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="48dp"
+        android:ems="10"
+        android:hint="Weight"
+        android:inputType="phone"
+        android:minHeight="48dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/height"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="124dp"
+        android:layout_marginBottom="32dp"
         android:ems="10"
         android:hint="@string/height"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/saveUserProfileBtn"
+        app:layout_constraintBottom_toTopOf="@+id/weight"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"></EditText>
-
-    <Button
-        android:id="@+id/saveUserProfileBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="68dp"
-        android:backgroundTint="@color/w5"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthday"
+        app:layout_constraintVertical_bias="0.77"></EditText>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,51 +10,39 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="@string/workout_menu"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/workoutSummaryBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.405"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.253"
+        tools:layout_editor_absoluteX="127dp" />
 
     <Button
         android:id="@+id/nextRecommendedBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="156dp"
         android:backgroundTint="@color/w5"
         android:text="@string/next_rec_workout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/workoutSummaryBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/w5"
-        android:text="@string/workout_summary"
-        app:layout_constraintBottom_toTopOf="@+id/workoutHistoryBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.836" />
 
     <Button
         android:id="@+id/workoutHistoryBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
         android:backgroundTint="@color/w5"
         android:text="@string/ses_history"
-        app:layout_constraintBottom_toTopOf="@+id/routineCreationBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workoutSummaryBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.02" />
 
     <Button
         android:id="@+id/routineCreationBtn"
@@ -64,9 +52,9 @@
         android:text="@string/routines"
         app:layout_constraintBottom_toTopOf="@+id/nextRecommendedBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workoutHistoryBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/workoutHistoryBtn"
+        app:layout_constraintVertical_bias="0.549" />
 
     <ImageView
         android:id="@+id/imageView"
