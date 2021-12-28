@@ -54,7 +54,7 @@ public class UserProfileFragment extends Fragment {
             lastName.setText(user.lastName);
 
 
-        });
+        }).start();
 
         return view;
     }
